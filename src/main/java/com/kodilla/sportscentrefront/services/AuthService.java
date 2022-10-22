@@ -1,6 +1,6 @@
 package com.kodilla.sportscentrefront.services;
 
-import com.kodilla.sportscentrefront.domain.enums.Role;
+import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
 import com.kodilla.sportscentrefront.view.AdminView;
 import com.kodilla.sportscentrefront.view.HomeView;
 import com.kodilla.sportscentrefront.view.MainView;

@@ -3,11 +3,13 @@ package com.kodilla.sportscentrefront.backend.connect.domain;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateDto {
     private String name;
     private String surname;

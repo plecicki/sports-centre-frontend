@@ -5,8 +5,6 @@ import com.kodilla.sportscentrefront.backend.connect.domain.Card;
 import com.kodilla.sportscentrefront.backend.connect.domain.CardCreateDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.CardEditDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;

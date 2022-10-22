@@ -3,12 +3,14 @@ package com.kodilla.sportscentrefront.backend.connect.domain;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     private Long userId;

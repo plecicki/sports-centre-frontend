@@ -13,6 +13,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Invoice {
 
+    public Invoice(Long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+
     private Long invoiceId;
     private PaymentStatus paymentStatus;
     private LocalDate paymentDeadline;

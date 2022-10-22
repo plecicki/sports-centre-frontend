@@ -11,6 +11,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Order {
 
+    public Order(Long orderId) {
+        this.orderId = orderId;
+    }
+
     private Long orderId;
     private String description;
     private BigDecimal sum;

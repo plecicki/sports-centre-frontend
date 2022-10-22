@@ -13,6 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
 
+    public User(Long userId) {
+        this.userId = userId;
+    }
+
     private Long userId;
     private String name;
     private String surname;

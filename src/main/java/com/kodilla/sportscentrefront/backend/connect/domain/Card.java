@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Card {
 
+    public Card(Long cardId) {
+        this.cardId = cardId;
+    }
+
     private Long cardId;
     private User user;
     private String accessPass;

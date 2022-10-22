@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Account {
 
+    public Account(Long accountId) {
+        this.accountId = accountId;
+    }
+
     private Long accountId;
     private String username;
     private String passwordSalt;

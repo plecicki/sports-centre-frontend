@@ -1,6 +1,7 @@
 package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
+import com.kodilla.sportscentrefront.backend.connect.domain.Card;
 import com.kodilla.sportscentrefront.backend.connect.domain.User;
 import com.kodilla.sportscentrefront.backend.connect.domain.UserCreateDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.UserEditDto;
@@ -66,5 +67,16 @@ public class UserCardClient {
                 .encode()
                 .toUri();
         restTemplate.delete(uri);
+    }
+
+    public Card getCardByUserId(Long userId) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/" + userId)
+                .build()
+                .encode()
+                .toUri();
+        Card card = restTemplate.getForObject(
+                uri, Card.class
+        );
+        return card;
     }
 }

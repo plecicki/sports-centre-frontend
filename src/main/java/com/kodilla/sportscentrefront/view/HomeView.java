@@ -1,7 +1,6 @@
 package com.kodilla.sportscentrefront.view;
 
-import com.kodilla.sportscentrefront.backend.connect.client.AccountClient;
-import com.kodilla.sportscentrefront.backend.connect.client.CardClient;
+import com.kodilla.sportscentrefront.backend.connect.client.*;
 import com.kodilla.sportscentrefront.backend.connect.domain.*;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.CardStatus;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
@@ -16,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HomeView extends VerticalLayout {
 
     @Autowired
-    public HomeView(CardClient cardClient, AccountClient accountClient) {
+    public HomeView(CardClient cardClient, AccountClient accountClient,
+                    InvoiceFrontClient invoiceFrontClient, UserCardClient userCardClient,
+                    YouTubeClient youTubeClient) {
         Button button = new Button("Test", event -> {
             System.out.println(cardClient.getCards().length);
         });
@@ -69,5 +70,23 @@ public class HomeView extends VerticalLayout {
             System.out.println("Message: " + message);
         });
         add(button5);
+
+        Button button6 = new Button("GetInvoiceTest", event -> {
+            Invoice[] message = invoiceFrontClient.getInvoiceByUserId(41L);
+            System.out.println("Message: " + message);
+        });
+        add(button6);
+
+        Button button7 = new Button("GetCardTest", event -> {
+            Card message = userCardClient.getCardByUserId(45L);
+            System.out.println("Message: " + message);
+        });
+        add(button7);
+
+        Button button8 = new Button("GetYouTube", event -> {
+            MyYouTubeDto[] message = youTubeClient.getYouTube();
+            System.out.println("Message: " + message);
+        });
+        add(button8);
     }
 }

@@ -1,6 +1,7 @@
 package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
+import com.kodilla.sportscentrefront.backend.connect.domain.Card;
 import com.kodilla.sportscentrefront.backend.connect.domain.Invoice;
 import com.kodilla.sportscentrefront.backend.connect.domain.InvoiceEditDto;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,16 @@ public class InvoiceFrontClient {
         restTemplate.put(
                 uri, null
         );
+    }
+
+    public Invoice[] getInvoiceByUserId(Long userId) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getStatus() + "/" + userId)
+                .build()
+                .encode()
+                .toUri();
+        Invoice[] invoices = restTemplate.getForObject(
+                uri, Invoice[].class
+        );
+        return invoices;
     }
 }

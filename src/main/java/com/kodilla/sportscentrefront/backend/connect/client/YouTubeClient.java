@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -17,13 +18,13 @@ public class YouTubeClient {
     private final RestTemplate restTemplate;
     private final BackEndConfig backEndConfig;
 
-    public MyYouTubeDto getYouTube() {
+    public MyYouTubeDto[] getYouTube() {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getYoutube())
                 .build()
                 .encode()
                 .toUri();
-        MyYouTubeDto response = restTemplate.getForObject(
-                uri, MyYouTubeDto.class
+        MyYouTubeDto[] response = restTemplate.getForObject(
+                uri, MyYouTubeDto[].class
         );
         return response;
     }

@@ -39,10 +39,9 @@ public class AccountClient {
                 .toUri();;
         Object response;
         try {
-            AccountOutDto accountOutDto = restTemplate.postForObject(
+            response = restTemplate.postForObject(
                     uri, accountInDto, AccountOutDto.class
             );
-            response = accountOutDto.getUser();
         } catch (RestClientException e){
             response = restTemplate.postForObject(
                     uri, accountInDto, String.class

@@ -8,9 +8,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageTitle("SportHome")
+@PageTitle("Home")
 @Route("sport/home")
 public class HomeView extends VerticalLayout {
 
@@ -18,6 +19,7 @@ public class HomeView extends VerticalLayout {
     public HomeView(CardClient cardClient, AccountClient accountClient,
                     InvoiceFrontClient invoiceFrontClient, UserCardClient userCardClient,
                     YouTubeClient youTubeClient) {
+
         Button button = new Button("Test", event -> {
             System.out.println(cardClient.getCards().length);
         });

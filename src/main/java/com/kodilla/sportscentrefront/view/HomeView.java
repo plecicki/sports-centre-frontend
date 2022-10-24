@@ -3,16 +3,22 @@ package com.kodilla.sportscentrefront.view;
 import com.kodilla.sportscentrefront.backend.connect.client.YouTubeClient;
 import com.kodilla.sportscentrefront.backend.connect.domain.MyYouTubeDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.TableYouTubeDto;
+import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +32,8 @@ public class HomeView extends VerticalLayout {
 
     @Autowired
     public HomeView(YouTubeClient youTubeClient) {
+        setId("");
+
         Image upImage = new Image("images/background.jpg", "Image at the up of website");
         upImage.setWidthFull();
         add(upImage);
@@ -40,20 +48,59 @@ public class HomeView extends VerticalLayout {
         List<TableYouTubeDto> tableYouTubeDto = getTableYouTube(myYouTubeDto);
 
         Grid<TableYouTubeDto> gridYT = new Grid<>(TableYouTubeDto.class);
-        gridYT.setColumns("publishedAt", "title", "channelTitle", "viewCount", "likeCount");
+        gridYT.setColumns();
+
+        gridYT.addComponentColumn(item -> {
+                    Label label = new Label();
+                    label.setText(item.getPublishedAt().toString());
+                    label.setWhiteSpace(HasText.WhiteSpace.NORMAL);
+                    return label;
+                })
+                .setHeader("Published At");
+
+        gridYT.addComponentColumn(item -> {
+                    Label label = new Label();
+                    label.setText(item.getTitle());
+                    label.setWhiteSpace(HasText.WhiteSpace.NORMAL);
+                    return label;
+                })
+                .setHeader("Title");
+
+        gridYT.addComponentColumn(item -> {
+                    Label label = new Label();
+                    label.setText(item.getChannelTitle());
+                    label.setWhiteSpace(HasText.WhiteSpace.NORMAL);
+                    return label;
+                })
+                .setHeader("Channel Title");
+
+        gridYT.addComponentColumn(item -> {
+                    Label label = new Label();
+                    label.setText(item.getViewCount());
+                    label.setWhiteSpace(HasText.WhiteSpace.NORMAL);
+                    return label;
+                })
+                .setHeader("View Count");
+
+        gridYT.addComponentColumn(item -> {
+                    Label label = new Label();
+                    label.setText(item.getLikeCount());
+                    label.setWhiteSpace(HasText.WhiteSpace.NORMAL);
+                    return label;
+                })
+                .setHeader("Like Count");
 
         gridYT.addComponentColumn(e -> e.getImage()).setHeader("Image");
 
+        gridYT.addItemClickListener(e -> {
+            Runtime rt = Runtime.getRuntime();
+            String url = e.getItem().getVideoUrl();
+            try {
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } catch (IOException exception) {
 
-//        gridYT.addComponentColumn(
-//                "imageUrl"
-//        ).setHeader("Preview");
-//        column.getEditorComponent().getElement().setAttribute(image, new Image(gridYT.getEditor()., "alt text")).
-        //gridYT.addComponentColumn(i -> new Image(tableYouTubeDto.get().getImageUrl(), "alt text")).setHeader("Preview");
-//        for (final int i=0; i<tableYouTubeDto.size(); i++) {
-//            gridYT.addColumn(j -> new Image(tableYouTubeDto.get(i).getImageUrl(), "alt text")).
-//                setHeader("Image");
-//        }
+            }
+        });
         gridYT.setItems(tableYouTubeDto);
         add(gridYT);
     }

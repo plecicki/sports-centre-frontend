@@ -60,5 +60,6 @@
   margin-right: var(--lumo-space-l);
 }
 
-.v-grid-cell {
-  white-space: normal;  }
+.center-form form {
+  text-align: center;
+}

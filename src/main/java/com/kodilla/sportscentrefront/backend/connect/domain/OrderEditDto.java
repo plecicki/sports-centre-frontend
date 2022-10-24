@@ -14,4 +14,5 @@ public class OrderEditDto {
     private Long orderId;
     private String description;
     private BigDecimal sum;
+    private User user;
 }

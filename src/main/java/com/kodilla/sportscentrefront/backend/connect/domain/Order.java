@@ -18,4 +18,5 @@ public class Order {
     private Long orderId;
     private String description;
     private BigDecimal sum;
+    private User user;
 }

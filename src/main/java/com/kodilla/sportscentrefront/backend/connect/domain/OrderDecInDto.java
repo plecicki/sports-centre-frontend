@@ -14,4 +14,6 @@ public class OrderDecInDto {
     private Boolean citrulline;
     private Boolean creatine;
     private Boolean protein;
+
+    private User user;
 }

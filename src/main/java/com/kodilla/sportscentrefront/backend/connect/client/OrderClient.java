@@ -53,7 +53,8 @@ public class OrderClient {
         Order response = new Order(
                 orderEditDto.getOrderId(),
                 orderEditDto.getDescription(),
-                orderEditDto.getSum()
+                orderEditDto.getSum(),
+                orderEditDto.getUser()
         );
         return response;
     }

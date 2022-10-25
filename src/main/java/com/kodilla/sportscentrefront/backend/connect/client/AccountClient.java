@@ -49,4 +49,15 @@ public class AccountClient {
         }
         return response;
     }
+
+    public Boolean checkIfAccountExistsByUsername(String username) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getAccount() +
+                        "/" + username)
+                .build()
+                .encode()
+                .toUri();
+        return restTemplate.getForObject(
+                uri, Boolean.class
+        );
+    }
 }

@@ -1,5 +1,7 @@
 package com.kodilla.sportscentrefront.view;
 
+import com.kodilla.sportscentrefront.backend.connect.client.AccountClient;
+import com.kodilla.sportscentrefront.backend.connect.client.UserCardClient;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -42,8 +44,10 @@ public class RegistrationView extends VerticalLayout {
     private Label validationField = new Label("Please fill all fields to unlock button");
     private Button regButton = new Button("Register");
 
+    private Boolean userTaken = true;
+
     @Autowired
-    public RegistrationView() {
+    public RegistrationView(AccountClient accountClient) {
         setId("login-view");
         add(registrationHeading);
 
@@ -100,7 +104,15 @@ public class RegistrationView extends VerticalLayout {
 
         username.setLabel("Username:");
         add(username);
-        username.addValueChangeListener(event -> checkButton());
+        username.addValueChangeListener(event -> {
+            userTaken = accountClient.checkIfAccountExistsByUsername(username.getValue());
+            if (userTaken) {
+                username.setHelperText("This username is taken by someone else!");
+            } else {
+                username.setHelperText("This username is correct :-)");
+            }
+            checkButton();
+        });
 
         password.setLabel("Password to account:");
         add(password);
@@ -118,8 +130,9 @@ public class RegistrationView extends VerticalLayout {
 
     private void checkButton() {
         if ((roleField.getValue().equals(Role.ADMIN) || roleField.getValue().equals(Role.USER)) &&
-            (roleField.getValue().equals(Role.ADMIN) && !adminKey.getValue().isEmpty()) &&
+        ((roleField.getValue().equals(Role.ADMIN) && !adminKey.getValue().isEmpty()) || roleField.getValue().equals(Role.USER)) &&
         (!name.getValue().isEmpty()) &&
+        (!userTaken) &&
         (!surname.getValue().isEmpty()) &&
         (!birth.getValue().toString().isEmpty()) &&
         (!email.getValue().isEmpty()) &&
@@ -131,6 +144,9 @@ public class RegistrationView extends VerticalLayout {
         {
             validationField.setVisible(false);
             regButton.setEnabled(true);
+        } else {
+            validationField.setVisible(true);
+            regButton.setEnabled(false);
         }
     }
 }

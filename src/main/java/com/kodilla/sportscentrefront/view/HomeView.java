@@ -47,7 +47,7 @@ public class HomeView extends VerticalLayout {
 
         //------------------------------------------------------
 
-        Button loginButton = new Button("Click to Log In", event -> {
+        Button loginButton = new Button("Click to Log In or Register", event -> {
             UI.getCurrent().navigate("/sport/login");
         });
         loginButton.setWidthFull();

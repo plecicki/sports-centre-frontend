@@ -18,16 +18,26 @@ public class AccountClient {
 
     private final RestTemplate restTemplate;
     private final BackEndConfig backEndConfig;
+    private final UserCardClient userCardClient;
+    private final CardClient cardClient;
 
     public String createAccount(AccountCreateDto accountCreateDto) {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getAccount())
                 .build()
                 .encode()
                 .toUri();
-        String exception = "Success";
-        exception = restTemplate.postForObject(
+        String exception = restTemplate.postForObject(
                 uri, accountCreateDto, String.class
         );
+        if (exception == null) {
+            exception = "Success";
+        } else if (exception.contains("permission")) {
+            Long userId = accountCreateDto.getUser().getUserId();
+            Long cardId = accountCreateDto.getUser().getCard().getCardId();
+
+            userCardClient.deleteUser(userId);
+            cardClient.deleteCard(cardId);
+        }
         return exception;
     }
 

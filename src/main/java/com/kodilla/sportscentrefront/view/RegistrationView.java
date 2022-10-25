@@ -1,14 +1,20 @@
 package com.kodilla.sportscentrefront.view;
 
 import com.kodilla.sportscentrefront.backend.connect.client.AccountClient;
+import com.kodilla.sportscentrefront.backend.connect.client.CardClient;
 import com.kodilla.sportscentrefront.backend.connect.client.UserCardClient;
+import com.kodilla.sportscentrefront.backend.connect.domain.*;
+import com.kodilla.sportscentrefront.backend.connect.domain.enums.CardStatus;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.button.Button;
@@ -18,6 +24,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 
 @Route("sport/registration")
 @PageTitle("Registration")
@@ -25,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RegistrationView extends VerticalLayout {
 
     private H1 registrationHeading = new H1("Registration Form");
-    private ComboBox<Role> roleField = new ComboBox<>("Choose account role:");
+    private Select<Role> roleField = new Select<>();
     private TextField adminKey = new TextField();
     private TextField name = new TextField();
     private TextField surname = new TextField();
@@ -33,7 +41,7 @@ public class RegistrationView extends VerticalLayout {
     private DatePicker birth = new DatePicker("Select date of birth:");
     private TextField email = new TextField();
     private TextField phone = new TextField();
-    private ComboBox<Goals> goalField = new ComboBox<>("Choose your main goal:");
+    private Select<Goals> goalField = new Select<>();
     private Checkbox studentCB = new Checkbox("Are you student?");
     private Checkbox swimmingPoolCB = new Checkbox("Do you want swimming pool access?");
     private Checkbox gymCB = new Checkbox("Do you want gym access?");
@@ -47,17 +55,20 @@ public class RegistrationView extends VerticalLayout {
     private Boolean userTaken = true;
 
     @Autowired
-    public RegistrationView(AccountClient accountClient) {
+    public RegistrationView(AccountClient accountClient, UserCardClient userCardClient,
+                            CardClient cardClient) {
         setId("login-view");
         add(registrationHeading);
 
         roleField.setItems(Role.USER, Role.ADMIN);
         roleField.setValue(Role.USER);
-        roleField.setAllowCustomValue(false);
+        roleField.setLabel("Choose account role:");
+        roleField.setRequiredIndicatorVisible(true);
+        roleField.setErrorMessage("Role is required");
         add(roleField);
         roleField.addValueChangeListener(event -> {
             checkButton();
-            if (roleField.getValue().equals(Role.ADMIN)) {
+            if (Role.ADMIN.equals(roleField.getValue())) {
                 adminKey.setVisible(true);
             } else {
                 adminKey.setVisible(false);
@@ -93,7 +104,10 @@ public class RegistrationView extends VerticalLayout {
         phone.addValueChangeListener(event -> checkButton());
 
         goalField.setItems(Goals.HEALTH, Goals.MUSCULAR, Goals.WEIGHT);
-        goalField.setAllowCustomValue(false);
+        goalField.setLabel("Choose your main goal:");
+        goalField.setRequiredIndicatorVisible(true);
+        goalField.setErrorMessage("Goal is required!");
+
         add(goalField);
         goalField.addValueChangeListener(event -> checkButton());
 
@@ -126,11 +140,18 @@ public class RegistrationView extends VerticalLayout {
 
         regButton.setEnabled(false);
         add(regButton);
+        regButton.addClickListener(event -> {
+            final String info = buttonEvent(accountClient, userCardClient, cardClient);
+            Notification.show(info);
+            if (info.contains("Success")) {
+                UI.getCurrent().navigate("/sport/login");
+            }
+        });
     }
 
     private void checkButton() {
-        if ((roleField.getValue().equals(Role.ADMIN) || roleField.getValue().equals(Role.USER)) &&
-        ((roleField.getValue().equals(Role.ADMIN) && !adminKey.getValue().isEmpty()) || roleField.getValue().equals(Role.USER)) &&
+        if ((Role.ADMIN.equals(roleField.getValue()) || Role.USER.equals(roleField.getValue())) &&
+        ((Role.ADMIN.equals(roleField.getValue()) && !adminKey.getValue().isEmpty()) || Role.USER.equals(roleField.getValue())) &&
         (!name.getValue().isEmpty()) &&
         (!userTaken) &&
         (!surname.getValue().isEmpty()) &&
@@ -148,5 +169,39 @@ public class RegistrationView extends VerticalLayout {
             validationField.setVisible(true);
             regButton.setEnabled(false);
         }
+    }
+
+    private String buttonEvent(AccountClient accountClient, UserCardClient userCardClient,
+                             CardClient cardClient) {
+        CardCreateDto cardCreateDto = new CardCreateDto(
+                null,
+                passwordCard.getValue(),
+                CardStatus.AVAILABLE
+        );
+        Card card = cardClient.createCard(cardCreateDto);
+        UserCreateDto userCreateDto = new UserCreateDto(
+                name.getValue(),
+                surname.getValue(),
+                birth.getValue(),
+                email.getValue(),
+                phone.getValue(),
+                goalField.getValue(),
+                studentCB.getValue(),
+                gymCB.getValue(),
+                swimmingPoolCB.getValue(),
+                card,
+                autoExtensionCB.getValue(),
+                LocalDate.now().plusMonths(1)
+        );
+        User user = userCardClient.createUser(userCreateDto);
+        AccountCreateDto accountCreateDto = new AccountCreateDto(
+                username.getValue(),
+                password.getValue(),
+                roleField.getValue(),
+                user,
+                adminKey.getValue()
+        );
+        String info = accountClient.createAccount(accountCreateDto);
+        return info;
     }
 }

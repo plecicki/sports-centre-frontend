@@ -44,12 +44,17 @@ public class LoginView extends VerticalLayout {
 
         loginButton.addClickShortcut(Key.ENTER);
 
+        Button registerButton = new Button("Register", event -> {
+            UI.getCurrent().navigate("/sport/registration");
+        });
+
         add(
                 new H1("Please Log In to Your account!"),
                 loginForm,
                 username,
                 password,
-                loginButton
+                loginButton,
+                registerButton
         );
     }
 }

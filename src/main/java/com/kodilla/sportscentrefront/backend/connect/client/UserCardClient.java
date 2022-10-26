@@ -62,7 +62,7 @@ public class UserCardClient {
     }
 
     public void deleteUser(Long userId) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/" + userId)
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/user/" + userId)
                 .build()
                 .encode()
                 .toUri();
@@ -78,5 +78,13 @@ public class UserCardClient {
                 uri, Card.class
         );
         return card;
+    }
+
+    public void deleteCard(Long cardId) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/card/" + cardId)
+                .build()
+                .encode()
+                .toUri();
+        restTemplate.delete(uri);
     }
 }

@@ -1,11 +1,10 @@
 package com.kodilla.sportscentrefront.backend.connect.domain;
 
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {

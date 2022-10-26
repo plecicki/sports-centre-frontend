@@ -1,9 +1,10 @@
-package com.kodilla.sportscentrefront.view;
+package com.kodilla.sportscentrefront.view.user;
 
 import com.kodilla.sportscentrefront.backend.connect.client.WeatherClient;
 import com.kodilla.sportscentrefront.backend.connect.client.YouTubeClient;
 import com.kodilla.sportscentrefront.backend.connect.domain.MyYouTubeDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.TableYouTubeDto;
+import com.kodilla.sportscentrefront.view.HomeView;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
@@ -14,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@PageTitle("Admin")
-public class AdminView extends VerticalLayout {
+@PageTitle("User")
+public class UserView extends VerticalLayout {
 
     @Autowired
-    public AdminView(WeatherClient weatherClient, YouTubeClient youTubeClient) {
+    public UserView(WeatherClient weatherClient, YouTubeClient youTubeClient) {
         Image upImage = new Image("images/background.jpg", "Image at the up of website");
         upImage.setWidthFull();
         add(upImage);

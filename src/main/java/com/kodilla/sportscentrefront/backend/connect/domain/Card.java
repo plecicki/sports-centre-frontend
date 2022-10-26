@@ -4,8 +4,10 @@ import com.kodilla.sportscentrefront.backend.connect.domain.enums.CardStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Card {

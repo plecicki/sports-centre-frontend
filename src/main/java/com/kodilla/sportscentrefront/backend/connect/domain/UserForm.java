@@ -56,11 +56,22 @@ public class UserForm extends FormLayout {
         goalField.setItems(Goals.values());
 
         cardIds.setLabel("Card:");
-        List<Long> freeCardsIds = Arrays.asList(cardClient.getCards()).stream()
-                        .filter(card -> card.getUser() == null)
-                                .map(card -> card.getCardId())
-                                        .collect(Collectors.toList());
-        cardIds.setItems(freeCardsIds);
+        List<Long> allCardsIds = Arrays.asList(cardClient.getCards()).stream()
+                .map(card -> card.getCardId())
+                .toList();
+        List<Long> usedCards = Arrays.asList(userClient.getUsers()).stream()
+                        .map(user -> {
+                            if (user.getCard() != null) {
+                                return user.getCard().getCardId();
+                            } else {
+                                return 0L;
+                            }
+                        })
+                        .toList();
+        List<Long> nonUsedCards = allCardsIds.stream()
+                        .filter(id -> !usedCards.contains(id))
+                                .toList();
+        cardIds.setItems(nonUsedCards);
 
         validation.setI18n(birthPicker);
         validation.setAllowedCharPattern("yyyy-MM-dd");
@@ -127,12 +138,38 @@ public class UserForm extends FormLayout {
     }
 
     public void setUser(User user) {
+
         binder.setBean(user);
 
         if (user == null) {
             setVisible(false);
         } else {
             setVisible(true);
+
+//            user.setBirthDate(birth.getValue());
+//            user.setGoal(goalField.getValue());
+//            user.setGym(gymCB.getValue());
+//            user.setStudent(studentCB.getValue());
+//            user.setSwimmingPool(swimmingPoolCB.getValue());
+//            if (user.getCard() != null) {
+//                Card card = new Card();
+//                card.setCardId(user.getCard().getCardId());
+//                user.setCard(card);
+//            }
+//            user.setAutoExtension(autoExtensionCB.getValue());
+//            user.setSubValidity(validation.getValue());
+
+            //TODO Fix creating users
+            birth.setValue(user.getBirthDate());
+            goalField.setValue(user.getGoal());
+            studentCB.setValue(user.getStudent());
+            swimmingPoolCB.setValue(user.getSwimmingPool());
+            gymCB.setValue(user.getGym());
+            if (user.getCard() != null) {
+                cardIds.setValue(user.getCard().getCardId());
+            }
+            autoExtensionCB.setValue(user.getAutoExtension());
+            validation.setValue(user.getSubValidity());
         }
     }
 }

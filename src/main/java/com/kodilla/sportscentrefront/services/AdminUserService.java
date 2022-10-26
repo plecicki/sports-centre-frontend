@@ -47,11 +47,11 @@ public class AdminUserService {
     }
 
     public void createUser(UserCreateDto userCreateDto) {
-        userClient.createUser(userCreateDto);
+        userCardClient.createUser(userCreateDto);
     }
 
     public void editUser(UserEditDto userEditDto) {
-        userClient.editUser(userEditDto);
+        userCardClient.editUser(userEditDto);
     }
 
     public void delete(Long userId) {

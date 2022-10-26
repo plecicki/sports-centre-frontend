@@ -16,6 +16,7 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,8 @@ public class UserForm extends FormLayout {
     private Select<Long> cardIds = new Select<>();
     private Checkbox autoExtensionCB = new Checkbox("Auto extension?");
     private DatePicker validation = new DatePicker("Date validate:");
+
+    private List<Long> nonUsedCards = new ArrayList<>();
 
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
@@ -68,7 +71,7 @@ public class UserForm extends FormLayout {
                             }
                         })
                         .toList();
-        List<Long> nonUsedCards = allCardsIds.stream()
+        nonUsedCards = allCardsIds.stream()
                         .filter(id -> !usedCards.contains(id))
                                 .toList();
         cardIds.setItems(nonUsedCards);
@@ -166,6 +169,12 @@ public class UserForm extends FormLayout {
             swimmingPoolCB.setValue(user.getSwimmingPool());
             gymCB.setValue(user.getGym());
             if (user.getCard() != null) {
+                List<Long> nonUsedPlusActual = new ArrayList<>();
+                for (Long nonUsed: nonUsedCards) {
+                    nonUsedPlusActual.add(nonUsed);
+                }
+                nonUsedPlusActual.add(user.getCard().getCardId());
+                cardIds.setItems(nonUsedPlusActual);
                 cardIds.setValue(user.getCard().getCardId());
             }
             autoExtensionCB.setValue(user.getAutoExtension());

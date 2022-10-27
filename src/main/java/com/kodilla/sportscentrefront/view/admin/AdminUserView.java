@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -49,7 +48,7 @@ public class AdminUserView extends VerticalLayout {
         }).setHeader("Card Id");
 
         addNewUser.addClickListener(event -> {
-            grid.asSingleSelect().clear();;
+            grid.asSingleSelect().clear();
             form.setUser(new User(), true, userClient, cardClient);
         });
         HorizontalLayout toolbar = new HorizontalLayout(filter, addNewUser);

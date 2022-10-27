@@ -5,6 +5,7 @@ import com.kodilla.sportscentrefront.backend.connect.domain.AccountInDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.AccountOutDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
 import com.kodilla.sportscentrefront.view.admin.AdminCardView;
+import com.kodilla.sportscentrefront.view.admin.AdminInvoiceView;
 import com.kodilla.sportscentrefront.view.admin.AdminUserView;
 import com.kodilla.sportscentrefront.view.admin.AdminView;
 import com.kodilla.sportscentrefront.view.AfterLoginView;
@@ -57,6 +58,7 @@ public class AuthService {
             routes.add(new AuthorizedRoute("sport/admin", "Admin", AdminView.class));
             routes.add(new AuthorizedRoute("sport/admin/card", "Cards", AdminCardView.class));
             routes.add(new AuthorizedRoute("sport/admin/user", "Users", AdminUserView.class));
+            routes.add(new AuthorizedRoute("sport/invoice", "Invoices", AdminInvoiceView.class));
 
             routes.add(new AuthorizedRoute("sport/logout", "Logout", LogoutView.class));
         }

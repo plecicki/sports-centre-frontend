@@ -19,7 +19,6 @@ import com.vaadin.flow.data.binder.Binder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserForm extends FormLayout {
 
@@ -66,24 +65,12 @@ public class UserForm extends FormLayout {
 
         goalField.setLabel("Goal:");
         goalField.setItems(Goals.values());
+        goalField.setEmptySelectionAllowed(true);
 
         cardIds.setLabel("Card:");
         cardIds.setEmptySelectionAllowed(true);
-        List<Long> allCardsIds = Arrays.asList(cardClient.getCards()).stream()
-                .map(card -> card.getCardId())
-                .toList();
-        List<Long> usedCards = Arrays.asList(userClient.getUsers()).stream()
-                        .map(user -> {
-                            if (user.getCard() != null) {
-                                return user.getCard().getCardId();
-                            } else {
-                                return 0L;
-                            }
-                        })
-                        .toList();
-        nonUsedCards = allCardsIds.stream()
-                        .filter(id -> !usedCards.contains(id))
-                                .toList();
+
+        nonUsedCards = setSelectWithEmptyCardIds(cardClient, userClient);
         cardIds.setItems(nonUsedCards);
 
         validation.setI18n(birthPicker);
@@ -95,19 +82,16 @@ public class UserForm extends FormLayout {
                 swimmingPoolCB, gymCB, cardIds, autoExtensionCB, validation, buttons);
         this.adminUserView = adminUserView;
 
-        save.addClickListener(event -> save());
-        delete.addClickListener(event -> delete());
+        save.addClickListener(event -> save(userClient, cardClient));
+        delete.addClickListener(event -> delete(userClient, cardClient));
 
         binder.bindInstanceFields(this);
     }
 
-    private void save() {
+    private void save(UserClient userClient, CardClient cardClient) {
         User user = binder.getBean();
 
         if (user.getUserId() == null) {
-//            Card card = new Card();
-//            card.setCardId(cardIds.getValue());
-
             user.setCard(new Card(cardIds.getValue()));
             UserCreateDto userCreateDto = new UserCreateDto(
                     name.getValue(),
@@ -125,9 +109,6 @@ public class UserForm extends FormLayout {
             );
             adminUserService.createUser(userCreateDto);
         } else {
-//            Card card = new Card();
-//            card.setCardId(cardIds.getValue());
-
             user.setCard(new Card(cardIds.getValue()));
             UserEditDto userEditDto = new UserEditDto(
                     user.getUserId(),
@@ -148,17 +129,17 @@ public class UserForm extends FormLayout {
         }
 
         adminUserView.refresh();
-        setUser(null, false);
+        setUser(null, false, userClient, cardClient);
     }
 
-    private void delete() {
+    private void delete(UserClient userClient, CardClient cardClient) {
         User user = binder.getBean();
         adminUserService.delete(user.getUserId());
         adminUserView.refresh();
-        setUser(null, false);
+        setUser(null, false, userClient, cardClient);
     }
 
-    public void setUser(User user, Boolean createUser) {
+    public void setUser(User user, Boolean createUser, UserClient userClient, CardClient cardClient) {
 
         binder.setBean(user);
 
@@ -174,20 +155,53 @@ public class UserForm extends FormLayout {
                 swimmingPoolCB.setValue(user.getSwimmingPool());
                 gymCB.setValue(user.getGym());
                 if (user.getCard() != null) {
+                    List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
                     List<Long> nonUsedPlusActual = new ArrayList<>();
-                    //TODO Fix updating select
-                    for (Long nonUsed: nonUsedCards) {
+                    for (Long nonUsed: nonUsedCardsIds) {
                         nonUsedPlusActual.add(nonUsed);
                     }
                     nonUsedPlusActual.add(user.getCard().getCardId());
                     cardIds.setItems(nonUsedPlusActual);
                     cardIds.setValue(user.getCard().getCardId());
                 } else {
+                    List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
+                    cardIds.setItems(nonUsedCardsIds);
                     cardIds.setValue(null);
                 }
                 autoExtensionCB.setValue(user.getAutoExtension());
                 validation.setValue(user.getSubValidity());
+            } else {
+                birth.setValue(null);
+                goalField.setValue(null);
+                studentCB.setValue(false);
+                swimmingPoolCB.setValue(false);
+                gymCB.setValue(false);
+
+                List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
+                cardIds.setItems(nonUsedCardsIds);
+                cardIds.setValue(null);
+
+                autoExtensionCB.setValue(false);
+                validation.setValue(null);
             }
         }
+    }
+
+    private List<Long> setSelectWithEmptyCardIds(CardClient cardClient, UserClient userClient) {
+        List<Long> allCardsIds = Arrays.asList(cardClient.getCards()).stream()
+                .map(card -> card.getCardId())
+                .toList();
+        List<Long> usedCards = Arrays.asList(userClient.getUsers()).stream()
+                .map(user -> {
+                    if (user.getCard() != null) {
+                        return user.getCard().getCardId();
+                    } else {
+                        return 0L;
+                    }
+                })
+                .toList();
+        return allCardsIds.stream()
+                .filter(id -> !usedCards.contains(id))
+                .toList();
     }
 }

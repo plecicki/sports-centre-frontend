@@ -61,6 +61,35 @@ public class UserCardClient {
         return response;
     }
 
+    public User editUserWithClone(UserEditDto userEditDto) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/clone")
+                .build()
+                .encode()
+                .toUri();
+
+        restTemplate.put(
+                uri, userEditDto
+        );
+
+        User response = new User(
+                userEditDto.getUserId(),
+                userEditDto.getName(),
+                userEditDto.getSurname(),
+                userEditDto.getBirthDate(),
+                userEditDto.getEmail(),
+                userEditDto.getPhone(),
+                userEditDto.getGoal(),
+                userEditDto.getStudent(),
+                userEditDto.getGym(),
+                userEditDto.getSwimmingPool(),
+                userEditDto.getCard(),
+                userEditDto.getAutoExtension(),
+                new ArrayList<>(),
+                userEditDto.getSubValidity()
+        );
+        return response;
+    }
+
     public void deleteUser(Long userId) {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/user/" + userId)
                 .build()

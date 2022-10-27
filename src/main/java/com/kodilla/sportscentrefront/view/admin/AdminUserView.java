@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 @PageTitle("Admin User")
-@Route("sport/admin/user")
 public class AdminUserView extends VerticalLayout {
 
     private UserClient userClient;
@@ -51,7 +50,7 @@ public class AdminUserView extends VerticalLayout {
 
         addNewUser.addClickListener(event -> {
             grid.asSingleSelect().clear();;
-            form.setUser(new User(), true);
+            form.setUser(new User(), true, userClient, cardClient);
         });
         HorizontalLayout toolbar = new HorizontalLayout(filter, addNewUser);
 
@@ -60,12 +59,12 @@ public class AdminUserView extends VerticalLayout {
         grid.setSizeFull();
 
         add(toolbar, mainContent);
-        form.setUser(null, false);
+        form.setUser(null, false, userClient, cardClient);
         setSizeFull();
         refresh();
 
         grid.asSingleSelect().addValueChangeListener(event -> {
-            form.setUser(grid.asSingleSelect().getValue(), false);
+            form.setUser(grid.asSingleSelect().getValue(), false, userClient, cardClient);
             form.setEnabled(true);
         });
     }

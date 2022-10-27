@@ -51,6 +51,15 @@ public class UserForm extends FormLayout {
     public UserForm(AdminUserView adminUserView, UserClient userClient, UserCardClient userCardClient, CardClient cardClient) {
         this.adminUserService = AdminUserService.getInstance(userClient, userCardClient);
 
+        name.isRequired();
+        surname.isRequired();
+        birth.isRequired();
+        email.isRequired();
+        phone.isRequired();
+        goalField.setRequiredIndicatorVisible(true);
+        cardIds.setRequiredIndicatorVisible(true);
+        validation.isRequired();
+
         birthPicker.setDateFormat("yyyy-MM-dd");
         birth.setI18n(birthPicker);
         birth.setAllowedCharPattern("yyyy-MM-dd");
@@ -59,6 +68,7 @@ public class UserForm extends FormLayout {
         goalField.setItems(Goals.values());
 
         cardIds.setLabel("Card:");
+        cardIds.setEmptySelectionAllowed(true);
         List<Long> allCardsIds = Arrays.asList(cardClient.getCards()).stream()
                 .map(card -> card.getCardId())
                 .toList();
@@ -95,52 +105,60 @@ public class UserForm extends FormLayout {
         User user = binder.getBean();
 
         if (user.getUserId() == null) {
+//            Card card = new Card();
+//            card.setCardId(cardIds.getValue());
+
+            user.setCard(new Card(cardIds.getValue()));
             UserCreateDto userCreateDto = new UserCreateDto(
-                    user.getName(),
-                    user.getSurname(),
-                    user.getBirthDate(),
-                    user.getEmail(),
-                    user.getPhone(),
-                    user.getGoal(),
-                    user.getStudent(),
-                    user.getGym(),
-                    user.getSwimmingPool(),
+                    name.getValue(),
+                    surname.getValue(),
+                    birth.getValue(),
+                    email.getValue(),
+                    phone.getValue(),
+                    goalField.getValue(),
+                    studentCB.getValue(),
+                    gymCB.getValue(),
+                    swimmingPoolCB.getValue(),
                     user.getCard(),
-                    user.getAutoExtension(),
-                    user.getSubValidity()
+                    autoExtensionCB.getValue(),
+                    validation.getValue()
             );
             adminUserService.createUser(userCreateDto);
         } else {
+//            Card card = new Card();
+//            card.setCardId(cardIds.getValue());
+
+            user.setCard(new Card(cardIds.getValue()));
             UserEditDto userEditDto = new UserEditDto(
                     user.getUserId(),
-                    user.getName(),
-                    user.getSurname(),
-                    user.getBirthDate(),
-                    user.getEmail(),
-                    user.getPhone(),
-                    user.getGoal(),
-                    user.getStudent(),
-                    user.getGym(),
-                    user.getSwimmingPool(),
+                    name.getValue(),
+                    surname.getValue(),
+                    birth.getValue(),
+                    email.getValue(),
+                    phone.getValue(),
+                    goalField.getValue(),
+                    studentCB.getValue(),
+                    gymCB.getValue(),
+                    swimmingPoolCB.getValue(),
                     user.getCard(),
-                    user.getAutoExtension(),
-                    user.getSubValidity()
+                    autoExtensionCB.getValue(),
+                    validation.getValue()
             );
             adminUserService.editUser(userEditDto);
         }
 
         adminUserView.refresh();
-        setUser(null);
+        setUser(null, false);
     }
 
     private void delete() {
         User user = binder.getBean();
         adminUserService.delete(user.getUserId());
         adminUserView.refresh();
-        setUser(null);
+        setUser(null, false);
     }
 
-    public void setUser(User user) {
+    public void setUser(User user, Boolean createUser) {
 
         binder.setBean(user);
 
@@ -149,36 +167,27 @@ public class UserForm extends FormLayout {
         } else {
             setVisible(true);
 
-//            user.setBirthDate(birth.getValue());
-//            user.setGoal(goalField.getValue());
-//            user.setGym(gymCB.getValue());
-//            user.setStudent(studentCB.getValue());
-//            user.setSwimmingPool(swimmingPoolCB.getValue());
-//            if (user.getCard() != null) {
-//                Card card = new Card();
-//                card.setCardId(user.getCard().getCardId());
-//                user.setCard(card);
-//            }
-//            user.setAutoExtension(autoExtensionCB.getValue());
-//            user.setSubValidity(validation.getValue());
-
-            //TODO Fix creating users
-            birth.setValue(user.getBirthDate());
-            goalField.setValue(user.getGoal());
-            studentCB.setValue(user.getStudent());
-            swimmingPoolCB.setValue(user.getSwimmingPool());
-            gymCB.setValue(user.getGym());
-            if (user.getCard() != null) {
-                List<Long> nonUsedPlusActual = new ArrayList<>();
-                for (Long nonUsed: nonUsedCards) {
-                    nonUsedPlusActual.add(nonUsed);
+            if (!createUser) {
+                birth.setValue(user.getBirthDate());
+                goalField.setValue(user.getGoal());
+                studentCB.setValue(user.getStudent());
+                swimmingPoolCB.setValue(user.getSwimmingPool());
+                gymCB.setValue(user.getGym());
+                if (user.getCard() != null) {
+                    List<Long> nonUsedPlusActual = new ArrayList<>();
+                    //TODO Fix updating select
+                    for (Long nonUsed: nonUsedCards) {
+                        nonUsedPlusActual.add(nonUsed);
+                    }
+                    nonUsedPlusActual.add(user.getCard().getCardId());
+                    cardIds.setItems(nonUsedPlusActual);
+                    cardIds.setValue(user.getCard().getCardId());
+                } else {
+                    cardIds.setValue(null);
                 }
-                nonUsedPlusActual.add(user.getCard().getCardId());
-                cardIds.setItems(nonUsedPlusActual);
-                cardIds.setValue(user.getCard().getCardId());
+                autoExtensionCB.setValue(user.getAutoExtension());
+                validation.setValue(user.getSubValidity());
             }
-            autoExtensionCB.setValue(user.getAutoExtension());
-            validation.setValue(user.getSubValidity());
         }
     }
 }

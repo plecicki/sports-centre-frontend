@@ -51,7 +51,7 @@ public class AdminUserView extends VerticalLayout {
 
         addNewUser.addClickListener(event -> {
             grid.asSingleSelect().clear();;
-            form.setUser(new User());
+            form.setUser(new User(), true);
         });
         HorizontalLayout toolbar = new HorizontalLayout(filter, addNewUser);
 
@@ -60,12 +60,12 @@ public class AdminUserView extends VerticalLayout {
         grid.setSizeFull();
 
         add(toolbar, mainContent);
-        form.setUser(null);
+        form.setUser(null, false);
         setSizeFull();
         refresh();
 
         grid.asSingleSelect().addValueChangeListener(event -> {
-            form.setUser(grid.asSingleSelect().getValue());
+            form.setUser(grid.asSingleSelect().getValue(), false);
             form.setEnabled(true);
         });
     }

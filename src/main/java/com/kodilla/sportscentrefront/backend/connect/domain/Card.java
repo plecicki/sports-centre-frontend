@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class Card {
 
     private Long cardId;
     private User user;
+    @NotEmpty
     private String accessPass;
     private CardStatus cardStatus;
 }

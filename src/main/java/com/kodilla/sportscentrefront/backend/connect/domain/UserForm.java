@@ -14,6 +14,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class UserForm extends FormLayout {
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
-    private Binder<User> binder = new Binder<User>(User.class);
+    private Binder<User> binder = new BeanValidationBinder<User>(User.class);
 
     private AdminUserView adminUserView;
 
@@ -50,14 +51,14 @@ public class UserForm extends FormLayout {
     public UserForm(AdminUserView adminUserView, UserClient userClient, UserCardClient userCardClient, CardClient cardClient) {
         this.adminUserService = AdminUserService.getInstance(userClient, userCardClient);
 
-        name.isRequired();
-        surname.isRequired();
-        birth.isRequired();
-        email.isRequired();
-        phone.isRequired();
+        name.setRequired(true);
+        surname.setRequired(true);
+        birth.setRequired(true);
+        email.setRequired(true);
+        phone.setRequired(true);
         goalField.setRequiredIndicatorVisible(true);
         cardIds.setRequiredIndicatorVisible(true);
-        validation.isRequired();
+        validation.setRequired(true);
 
         birthPicker.setDateFormat("yyyy-MM-dd");
         birth.setI18n(birthPicker);
@@ -83,6 +84,9 @@ public class UserForm extends FormLayout {
         this.adminUserView = adminUserView;
 
         save.addClickListener(event -> save(userClient, cardClient));
+
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+
         delete.addClickListener(event -> delete(userClient, cardClient));
 
         binder.bindInstanceFields(this);

@@ -11,6 +11,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 public class CardForm extends FormLayout {
@@ -21,7 +22,7 @@ public class CardForm extends FormLayout {
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
-    private Binder<Card> binder = new Binder<Card>(Card.class);
+    private Binder<Card> binder = new BeanValidationBinder<Card>(Card.class);
 
     private AdminCardView adminCardView;
 
@@ -29,6 +30,9 @@ public class CardForm extends FormLayout {
 
     public CardForm(AdminCardView adminCardView, CardClient cardClient, UserCardClient userCardClient) {
         this.adminCardService = AdminCardService.getInstance(cardClient, userCardClient);
+
+        accessPass.setRequired(true);
+        cardStatus.setRequiredIndicatorVisible(true);
 
         cardStatus.setLabel("Card status:");
         cardStatus.setItems(CardStatus.values());
@@ -39,6 +43,9 @@ public class CardForm extends FormLayout {
         this.adminCardView = adminCardView;
 
         save.addClickListener(event -> save());
+
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+
         delete.addClickListener(event -> delete());
 
         binder.bindInstanceFields(this);

@@ -1,10 +1,7 @@
 package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
-import com.kodilla.sportscentrefront.backend.connect.domain.Card;
-import com.kodilla.sportscentrefront.backend.connect.domain.User;
-import com.kodilla.sportscentrefront.backend.connect.domain.UserCreateDto;
-import com.kodilla.sportscentrefront.backend.connect.domain.UserEditDto;
+import com.kodilla.sportscentrefront.backend.connect.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -61,32 +58,16 @@ public class UserCardClient {
         return response;
     }
 
-    public User editUserWithClone(UserEditDto userEditDto) {
+    public UserOldNewDto editUserWithClone(UserEditDto userEditDto) {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getUsercard() + "/clone")
                 .build()
                 .encode()
                 .toUri();
 
-        restTemplate.put(
-                uri, userEditDto
+        UserOldNewDto response = restTemplate.postForObject(
+                uri, userEditDto, UserOldNewDto.class
         );
 
-        User response = new User(
-                userEditDto.getUserId(),
-                userEditDto.getName(),
-                userEditDto.getSurname(),
-                userEditDto.getBirthDate(),
-                userEditDto.getEmail(),
-                userEditDto.getPhone(),
-                userEditDto.getGoal(),
-                userEditDto.getStudent(),
-                userEditDto.getGym(),
-                userEditDto.getSwimmingPool(),
-                userEditDto.getCard(),
-                userEditDto.getAutoExtension(),
-                new ArrayList<>(),
-                userEditDto.getSubValidity()
-        );
         return response;
     }
 

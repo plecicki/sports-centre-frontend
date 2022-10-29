@@ -7,10 +7,7 @@ import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
 import com.kodilla.sportscentrefront.view.admin.*;
 import com.kodilla.sportscentrefront.view.AfterLoginView;
 import com.kodilla.sportscentrefront.view.LogoutView;
-import com.kodilla.sportscentrefront.view.user.UserInvoiceView;
-import com.kodilla.sportscentrefront.view.user.UserOrderView;
-import com.kodilla.sportscentrefront.view.user.UserUserView;
-import com.kodilla.sportscentrefront.view.user.UserView;
+import com.kodilla.sportscentrefront.view.user.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
@@ -55,6 +52,7 @@ public class AuthService {
             routes.add(new AuthorizedRoute("sport/user/user", "Your Data Edit", UserUserView.class));
             routes.add(new AuthorizedRoute("sport/user/invoice", "Your Invoices", UserInvoiceView.class));
             routes.add(new AuthorizedRoute("sport/user/order", "Make an Order", UserOrderView.class));
+            routes.add(new AuthorizedRoute("sport/user/card", "Change Card Password", UserCardView.class));
 
             routes.add(new AuthorizedRoute("sport/logout", "Logout", LogoutView.class));
         } else if (role.equals(Role.ADMIN)) {

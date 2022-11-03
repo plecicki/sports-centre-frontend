@@ -24,24 +24,40 @@ public class UserView extends VerticalLayout {
         upImage.setWidthFull();
         add(upImage);
 
-        FormLayout formLayout = HomeView.getFormLayout(weatherClient);
-        add(formLayout);
+        try {
+            FormLayout formLayout = HomeView.getFormLayout(weatherClient);
+            add(formLayout);
+        } catch (Exception e) {
+            Label weatherError = new Label("Weather API error!");
+            weatherError.getStyle().set("text-align", "center");
+            weatherError.getStyle().set("font-weight", "bold");
+            weatherError.getStyle().set("font-size", "20px");
+            weatherError.setWidthFull();
+            add(weatherError);
+        }
 
         //--------------------------------------------------------
 
-        Label recommends = new Label("Please, look at YouTube movies which we recommends below!");
-        recommends.getStyle().set("text-align", "center");
-        recommends.getStyle().set("font-weight", "bold");
-        recommends.getStyle().set("font-size", "20px");
-        recommends.setWidthFull();
-        add(recommends);
+        try {
+            MyYouTubeDto[] myYouTubeDto = youTubeClient.getYouTube();
+            List<TableYouTubeDto> tableYouTubeDto = HomeView.getTableYouTube(myYouTubeDto);
 
-        //--------------------------------------------------------
-        MyYouTubeDto[] myYouTubeDto = youTubeClient.getYouTube();
-        List<TableYouTubeDto> tableYouTubeDto = HomeView.getTableYouTube(myYouTubeDto);
+            Label recommends = new Label("Please, look at YouTube movies which we recommends below!");
+            recommends.getStyle().set("text-align", "center");
+            recommends.getStyle().set("font-weight", "bold");
+            recommends.getStyle().set("font-size", "20px");
+            recommends.setWidthFull();
+            add(recommends);
 
-
-        Grid<TableYouTubeDto> gridYT = HomeView.setGridYouTube(tableYouTubeDto);
-        add(gridYT);
+            Grid<TableYouTubeDto> gridYT = HomeView.setGridYouTube(tableYouTubeDto);
+            add(gridYT);
+        } catch (Exception e) {
+            Label yTError = new Label("YouTube API error!");
+            yTError.getStyle().set("text-align", "center");
+            yTError.getStyle().set("font-weight", "bold");
+            yTError.getStyle().set("font-size", "20px");
+            yTError.setWidthFull();
+            add(yTError);
+        }
     }
 }

@@ -33,17 +33,33 @@ Rejestracji dokonujemy po kliknięciu w przycisk "Register" w panelu logowania. 
 ### Próba pominięcia procesu logowania
 ![Try avoid login process](https://user-images.githubusercontent.com/84147482/200862559-ba1a16c4-0cbe-4d01-9f6a-495d2324f5d8.gif)
 <br> Program blokuje możliwość pominięcia procedury logowania do konta poprzez wpisanie na sztywno adresów stron, do których jesteśmy przenoszeni po poprawnym zalogowaniu się.
+
 ### Panel użytkownika po zalogowaniu
 #### Przegląd i edycja własnych danych
 ![User data edit](https://user-images.githubusercontent.com/84147482/200884267-67d42475-159e-4d33-bf46-65687cdb2c7e.gif)
+<br>Adres: http://[domena]/sport/user/user || np. http://localhost:8081/sport/user/user <br>
+Ten panel jest dostępny tylko po zalogowaniu użytkownika niebędącego adminem. Panel umożliwia podgląd oraz edycję tylko własnych danych. Po kliknięciu "Edit data" zostają nam wyświetlone pola wypełnione naszymi danymi, które możemy edytować. Przycisk posiada automatyczną blokadę w przypadku, gdybyśmy wykasowali zawartość któregoś z pól i nic tam nie wpisali. Po kliknięciu przycisku na samym dole panelu edycji "Edit" otrzymujemy widok naszych starych oraz nowych danych, dzięki czemu możemy je porównać (Wzorzec Prototyp po stronie back-end'u). Po kliknięciu "Ok" wracamy do widoku, który zastaliśmy wchodząc w zakładkę edycji własnych danych.
+
 #### Przegląd własnych faktur
 ![User invoices](https://user-images.githubusercontent.com/84147482/200884779-acd43210-2322-4870-b120-d259079f7c74.gif)
+<br>Adres: http://[domena]/sport/user/invoice || np. http://localhost:8081/sport/user/invoice <br>
+Panel umożliwia przeglądanie informacji o własnych fakturach.
+
 #### Składanie zamówienia
 ![User order](https://user-images.githubusercontent.com/84147482/200885620-5527b732-9ce6-4018-95da-440151f5eae8.gif)
+<br>Adres: http://[domena]/sport/user/order || np. http://localhost:8081/sport/user/order <br>
+Panel umożliwia składanie zamówienia w sklepie z suplementami zaznaczając CheckBoxy z produktami, które chcemy kupić. Musi być zaznaczony minimum jeden produkt, żeby przycisk do złożenia zamówienia był odblokowany. Po kliknięciu "Order" zostaje nam wyświetlone podsumowanie zamówienia z produktami które zamówiliśmy oraz ceną za wszystko (Wzorzec Dekorator po stronie back-end'u).
+
 #### Zmiana hasła do karty
 ![User change card password](https://user-images.githubusercontent.com/84147482/200887404-f9af4caa-20a8-48cd-a1eb-42fb8fe4c2cd.gif)
+<br>Adres: http://[domena]/sport/user/card || np. http://localhost:8081/sport/user/card <br>
+Panel umożliwia zmianę hasła do karty wpisując stare hasło, nowe hasło oraz ponawiając nowe hasło. Treść w polach tekstowych jest w postaci kropek zakrywających to co wpisujemy. W przypadku niepowodzenia np. z powodu wpisania złego starego hasła lub wpisania rozbieżnych nowych haseł zostajemy poinformowani odpowiednimi komunikatami w zależności od popełnionego błędu, co widać na gif'ie. W przypadku sukcesu również pojawia się komunikat w lewym dolnym rogu panelu.
+
 #### Wylogowanie się
 ![User logout](https://user-images.githubusercontent.com/84147482/200887907-b6553f20-e400-45e4-9750-c38354f0af92.gif)
+<br>Adres: http://[domena]/sport/logout || np. http://localhost:8081/sport/user/logout <br>
+Użytkownik zostaje wylogowany, dostęp do funkcji użytkownika zostaje zablokowany tak jak to było przed zalogowaniem się. Zostajemy przeniesieni do strony startowej.
+
 ### Panel administratora po zalogowaniu
 #### Przegląd, edycja, usuwanie oraz tworzenie nowych kart użytkowników
 ![Admin card](https://user-images.githubusercontent.com/84147482/200890894-2a30d16f-893e-4c44-b9a3-052c3a7b1127.gif)

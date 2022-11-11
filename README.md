@@ -63,13 +63,26 @@ Użytkownik zostaje wylogowany, dostęp do funkcji użytkownika zostaje zablokow
 ### Panel administratora po zalogowaniu
 #### Przegląd, edycja, usuwanie oraz tworzenie nowych kart użytkowników
 ![Admin card](https://user-images.githubusercontent.com/84147482/200890894-2a30d16f-893e-4c44-b9a3-052c3a7b1127.gif)
+<br>Adres: http://[domena]/sport/admin/card || np. http://localhost:8081/sport/admin/card <br>
+Administrator może przeglądać informacje o wszystkich kartach użytkowników. Pole tekstowe umieszczone w górnej części panelu służy do filtrowania kart po ich numerze id. Administrator posiada możliwość modyfikacji dostępnych kart oraz tworzenie nowych. W tym panelu nie ma możliwości przypisania użytkownika do karty, do tego służy zakładka "Users", gdzie przypisujemy kartę do użytkownika. Przycisk "Save" posiada funkcję automatycznego blokowania się i odblokowywania w zależności, czy pole z hasłem karty jest puste. Karta może zostać usunięta przez administratora i jeśli jest to karta posiadana przez jakiegoś użytkownika, wtedy jego pole z kartą ma przypisywaną wartość null.
+
 #### Przegląd, edycja, usuwanie oraz tworzenie nowych użytkowników
 ![Admin user](https://user-images.githubusercontent.com/84147482/200892552-b918436d-7b06-4029-ac75-fc440bbfe6a4.gif)
+<br>Adres: http://[domena]/sport/admin/user || np. http://localhost:8081/sport/admin/user <br>
+Administrator może przeglądać dane o wszystkich użytkownikach oraz może ich filtrować po numerze id za pomocą pola tekstowego na górze. Po kliknięciu w daną pozycję wysuwa się z prawej strony panel do edycji danych klikniętej pozycji w tabeli. Na szczególną uwagę zasługuje pole typu Select zawierający id cart, ponieważ pokazuje tylko id kard, które są wolne. Przycisk "Save" posiada walidację, czy pola tekstowe mają jakąś wartość. Po kliknięciu "Add new user" zostaje przedstawiony nam ten sam panel, tylko tym razem służy on do stworzenia nowego użytkownika. Użytkownicy mogą zostać usunięci przy pomocy przycisku "Delete", a przypisana do nich karta staje się kartą bez właściciela i można ją przypisać do nowej osoby.
+
 #### Przegląd, edycja, usuwanie oraz tworzenie nowych faktur
 ![Admin invoices](https://user-images.githubusercontent.com/84147482/200893652-97319e92-6508-401e-98de-d1ee21a21764.gif)
+<br>Adres: http://[domena]/sport/admin/invoice || np. http://localhost:8081/sport/admin/invoice <br>
+Administrator może zarządzać fakturami użytkowników analogicznie jak to ma miejsce w przypadku zarządzania użytkownikami i kartami. Różnice są takie, że możemy filtrować faktury nie po id faktury, a po id użytkownika. Kolejną różnicą są dwa dodatkowe przyciski w panelu edycji "Set PAID" oraz "Set NOT PAID", które są zablokowane przy tworzeniu nowej faktury. Służą one do szybkiej zmiany statusu faktury w razie, jakby któraś z nich została opłacona.
+
 #### Przegląd, usuwanie oraz składanie zamówień
 ![Admin orders](https://user-images.githubusercontent.com/84147482/200894417-ae6c3552-b933-4896-be1c-d62e7e0715a3.gif)
+Administrator może przeglądać wszystkie zamówienia, które zostały złożone. Może je filtrować po id użytkowników. Może je usuwać klikając w zamówienie, a następnie w wysuwającym się panelu kliknąć "Delete". Administrator może rónież złożyć własne zamówienie zaznaczając odpowiednie check boxy w wysuwającym się panelu po prawej stronie po kliknięciu "Create order". Po złożeniu zamówienia pojawia się powiadomienie w lewym dolnym rogu o produktach w zamówieniu i koszcie. Administrator nie może edytować zamówień, może tylko usuwać i składać własne zamówienia.
+
 #### Wylogowanie się z konta administratora
 ![Admin logout](https://user-images.githubusercontent.com/84147482/200894805-5c4adf15-6128-48f4-8f37-e42e140814e3.gif)
+<br>Adres: http://[domena]/sport/logout || np. http://localhost:8081/sport/user/logout <br>
+Analogicznie jak to miało miejsce w przypadku zwykłego użytkownika niebędącego administratorem. Użytkownik zostaje wylogowany, dostęp do funkcji użytkownika zostaje zablokowany tak jak to było przed zalogowaniem się. Zostajemy przeniesieni do strony startowej.
 
 ## Description of the front-end of the project and image using gifs [ENG]<a name="description"></a>

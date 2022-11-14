@@ -101,6 +101,11 @@ public class HomeView extends VerticalLayout {
     public static FormLayout setLoginForm() {
         FormLayout loginForm = new FormLayout();
 
+        Label headLabel = new Label("Login credentials if you are using a database from GitHub");
+        headLabel.getStyle().set("text-align", "center");
+        headLabel.getStyle().set("font-weight", "bold");
+        headLabel.getStyle().set("font-size", "20px");
+
         Label userLabel = new Label("USER");
         userLabel.getStyle().set("text-align", "center");
         userLabel.getStyle().set("font-weight", "bold");
@@ -109,20 +114,24 @@ public class HomeView extends VerticalLayout {
         adminLabel.getStyle().set("text-align", "center");
         adminLabel.getStyle().set("font-weight", "bold");
 
-        Label userUser = new Label("Username: user");
+        Label userUser = new Label("Username: 1");
         userUser.getStyle().set("text-align", "center");
 
-        Label adminInfo = new Label("Included in CV");
+        Label adminInfo = new Label("Username: 2");
         adminInfo.getStyle().set("text-align", "center");
 
-        Label userPass = new Label("Password: pass");
+        Label userPass = new Label("Password: 1");
         userPass.getStyle().set("text-align", "center");
 
-        loginForm.add(userLabel, adminLabel, userUser, adminInfo,
-                userPass, new Label());
+        Label adminPass = new Label("Password: 2");
+        adminPass.getStyle().set("text-align", "center");
+
+        loginForm.add(headLabel, userLabel, adminLabel, userUser, adminInfo,
+                userPass, adminPass);
         loginForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 2),
                 new FormLayout.ResponsiveStep("500px", 2));
+        loginForm.setColspan(headLabel, 2);
         loginForm.getStyle().set("border", "2px solid #0015e7");
         loginForm.setWidthFull();
 
@@ -225,7 +234,6 @@ public class HomeView extends VerticalLayout {
         formLayout.setColspan(description, 2);
         formLayout.getStyle().set("border", "2px solid green");
         formLayout.setWidthFull();
-        //TODO Handle errors
         return formLayout;
     }
 

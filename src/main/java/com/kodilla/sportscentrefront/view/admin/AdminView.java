@@ -11,14 +11,12 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @PageTitle("Admin")
 public class AdminView extends VerticalLayout {
 
-    @Autowired
     public AdminView(WeatherClient weatherClient, YouTubeClient youTubeClient) {
         Image upImage = new Image("images/background.jpg", "Image at the up of website");
         upImage.setWidthFull();

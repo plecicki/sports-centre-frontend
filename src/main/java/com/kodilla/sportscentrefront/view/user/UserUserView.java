@@ -18,7 +18,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("User user")
 @CssImport("./styles/views/login/login-view.css")
@@ -64,7 +63,6 @@ public class UserUserView extends VerticalLayout {
     private FormLayout editingForm;
     private FormLayout acceptingForm;
 
-    @Autowired
     public UserUserView(UserCardClient userCardClient) {
         setId("login-view");
 

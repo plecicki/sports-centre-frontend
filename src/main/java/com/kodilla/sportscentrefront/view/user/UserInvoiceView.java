@@ -9,7 +9,6 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
 @PageTitle("User Invoices")
 public class UserInvoiceView extends VerticalLayout {
 
-    @Autowired
     public UserInvoiceView(InvoiceFrontClient invoiceFrontClient) {
         User user = VaadinSession.getCurrent().getAttribute(AccountOutDto.class).getUser();
         Invoice[] invoicesArray = invoiceFrontClient.getInvoiceByUserId(user.getUserId());

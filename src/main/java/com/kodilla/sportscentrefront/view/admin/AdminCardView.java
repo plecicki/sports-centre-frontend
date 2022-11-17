@@ -12,7 +12,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Admin Card")
 public class AdminCardView extends VerticalLayout {
@@ -22,7 +21,6 @@ public class AdminCardView extends VerticalLayout {
     private final TextField filter = new TextField();
     private final CardForm form;
 
-    @Autowired
     public AdminCardView(CardClient cardClient, UserCardClient userCardClient) {
         form = new CardForm(this, cardClient, userCardClient);
 

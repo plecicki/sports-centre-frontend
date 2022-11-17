@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @PageTitle("Admin User")
@@ -24,7 +23,6 @@ public class AdminUserView extends VerticalLayout {
     private final TextField filter = new TextField();
     private final UserForm form;
 
-    @Autowired
     public AdminUserView(UserClient userClient, UserCardClient userCardClient, CardClient cardClient) {
         form = new UserForm(this, userClient, userCardClient, cardClient);
 

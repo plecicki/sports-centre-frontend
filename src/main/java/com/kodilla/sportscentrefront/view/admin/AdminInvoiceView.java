@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Admin Invoice")
 public class AdminInvoiceView extends VerticalLayout {
@@ -23,7 +22,6 @@ public class AdminInvoiceView extends VerticalLayout {
     private final TextField filter = new TextField();
     private final InvoiceForm form;
 
-    @Autowired
     public AdminInvoiceView(InvoiceClient invoiceClient, UserClient userClient, InvoiceFrontClient invoiceFrontClient) {
         form = new InvoiceForm(this, invoiceClient, userClient, invoiceFrontClient);
 

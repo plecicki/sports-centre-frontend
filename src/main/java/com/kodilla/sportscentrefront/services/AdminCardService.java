@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class AdminCardService {
 
-    private List<Card> cards;
+    private final List<Card> cards;
     private static AdminCardService adminCardService;
 
-    private CardClient cardClient;
-    private UserCardClient userCardClient;
+    private final CardClient cardClient;
+    private final UserCardClient userCardClient;
 
     @Autowired
     private AdminCardService(CardClient cardClient, UserCardClient userCardClient) {

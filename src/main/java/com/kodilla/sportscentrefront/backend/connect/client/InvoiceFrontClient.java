@@ -1,9 +1,7 @@
 package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
-import com.kodilla.sportscentrefront.backend.connect.domain.Card;
 import com.kodilla.sportscentrefront.backend.connect.domain.Invoice;
-import com.kodilla.sportscentrefront.backend.connect.domain.InvoiceEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -43,9 +41,8 @@ public class InvoiceFrontClient {
                 .build()
                 .encode()
                 .toUri();
-        Invoice[] invoices = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Invoice[].class
         );
-        return invoices;
     }
 }

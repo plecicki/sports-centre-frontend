@@ -17,18 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Admin Card")
 public class AdminCardView extends VerticalLayout {
 
-    private CardClient cardClient;
-    private AdminCardService cardService;
-    private Grid<Card> grid = new Grid<>(Card.class);
-    private TextField filter = new TextField();
-    private CardForm form;
-    private Button addNewCard = new Button("Add new card");
+    private final AdminCardService cardService;
+    private final Grid<Card> grid = new Grid<>(Card.class);
+    private final TextField filter = new TextField();
+    private final CardForm form;
 
     @Autowired
     public AdminCardView(CardClient cardClient, UserCardClient userCardClient) {
         form = new CardForm(this, cardClient, userCardClient);
 
-        this.cardClient = cardClient;
         cardService = AdminCardService.getInstance(cardClient, userCardClient);
 
         filter.setPlaceholder("Filter by id...");
@@ -37,6 +34,7 @@ public class AdminCardView extends VerticalLayout {
         filter.addValueChangeListener(e -> update());
         grid.setColumns("cardId", "accessPass", "cardStatus");
 
+        Button addNewCard = new Button("Add new card");
         addNewCard.addClickListener(e -> {
             grid.asSingleSelect().clear();
             form.setCard(new Card());

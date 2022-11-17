@@ -16,17 +16,17 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class CardForm extends FormLayout {
 
-    private TextField accessPass = new TextField("Access password:");
-    private Select<CardStatus> cardStatus = new Select<>();
+    private final TextField accessPass = new TextField("Access password:");
+    private final Select<CardStatus> cardStatus = new Select<>();
 
-    private Button save = new Button("Save");
-    private Button delete = new Button("Delete");
+    private final Button save = new Button("Save");
+    private final Button delete = new Button("Delete");
 
-    private Binder<Card> binder = new BeanValidationBinder<Card>(Card.class);
+    private final Binder<Card> binder = new BeanValidationBinder<>(Card.class);
 
-    private AdminCardView adminCardView;
+    private final AdminCardView adminCardView;
 
-    private AdminCardService adminCardService;
+    private final AdminCardService adminCardService;
 
     public CardForm(AdminCardView adminCardView, CardClient cardClient, UserCardClient userCardClient) {
         this.adminCardService = AdminCardService.getInstance(cardClient, userCardClient);
@@ -85,10 +85,6 @@ public class CardForm extends FormLayout {
     public void setCard(Card card) {
         binder.setBean(card);
 
-        if (card == null) {
-            setVisible(false);
-        } else {
-            setVisible(true);
-        }
+        setVisible(card != null);
     }
 }

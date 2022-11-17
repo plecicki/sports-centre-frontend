@@ -19,10 +19,9 @@ public class UserClient {
 
     public User[] getUsers() {
         URI uri = getURIAddress();
-        User[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, User[].class
         );
-        return response;
     }
 
     public User getUser(Long userId) {
@@ -30,19 +29,17 @@ public class UserClient {
                 .build()
                 .encode()
                 .toUri();
-        User response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, User.class
         );
-        return response;
     }
 
     public User createUser(UserCreateDto userCreateDto) {
         URI uri = getURIAddress();
-        User response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 uri, userCreateDto, User.class
         );
-
-        return response;
     }
 
     public User editUser(UserEditDto userEditDto) {
@@ -51,7 +48,7 @@ public class UserClient {
                 uri, userEditDto
         );
 
-        User response = new User(
+        return new User(
                 userEditDto.getUserId(),
                 userEditDto.getName(),
                 userEditDto.getSurname(),
@@ -67,7 +64,6 @@ public class UserClient {
                 new ArrayList<>(),
                 userEditDto.getSubValidity()
         );
-        return response;
     }
 
     public void deleteUser(Long userId) {

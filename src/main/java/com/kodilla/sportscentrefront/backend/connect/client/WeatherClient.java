@@ -2,7 +2,6 @@ package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
 import com.kodilla.sportscentrefront.backend.connect.domain.TomWeatherDto;
-import com.kodilla.sportscentrefront.backend.connect.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,9 +21,8 @@ public class WeatherClient {
                 .build()
                 .encode()
                 .toUri();
-        TomWeatherDto response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, TomWeatherDto.class
         );
-        return response;
     }
 }

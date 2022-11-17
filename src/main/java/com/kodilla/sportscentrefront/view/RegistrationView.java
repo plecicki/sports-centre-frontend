@@ -8,18 +8,17 @@ import com.kodilla.sportscentrefront.backend.connect.domain.enums.CardStatus;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,25 +31,23 @@ import java.time.LocalDate;
 @CssImport("./styles/views/login/login-view.css")
 public class RegistrationView extends VerticalLayout {
 
-    private H1 registrationHeading = new H1("Registration Form");
-    private Select<Role> roleField = new Select<>();
-    private TextField adminKey = new TextField();
-    private TextField name = new TextField();
-    private TextField surname = new TextField();
-    private DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
-    private DatePicker birth = new DatePicker("Select date of birth:");
-    private TextField email = new TextField();
-    private TextField phone = new TextField();
-    private Select<Goals> goalField = new Select<>();
-    private Checkbox studentCB = new Checkbox("Are you student?");
-    private Checkbox swimmingPoolCB = new Checkbox("Do you want swimming pool access?");
-    private Checkbox gymCB = new Checkbox("Do you want gym access?");
-    private Checkbox autoExtensionCB = new Checkbox("Do you want auto extension of your subscription?");
-    private TextField username = new TextField();
-    private PasswordField password = new PasswordField();
-    private PasswordField passwordCard = new PasswordField();
-    private Label validationField = new Label("Please fill all fields to unlock button");
-    private Button regButton = new Button("Register");
+    private final Select<Role> roleField = new Select<>();
+    private final TextField adminKey = new TextField();
+    private final TextField name = new TextField();
+    private final TextField surname = new TextField();
+    private final DatePicker birth = new DatePicker("Select date of birth:");
+    private final TextField email = new TextField();
+    private final TextField phone = new TextField();
+    private final Select<Goals> goalField = new Select<>();
+    private final Checkbox studentCB = new Checkbox("Are you student?");
+    private final Checkbox swimmingPoolCB = new Checkbox("Do you want swimming pool access?");
+    private final Checkbox gymCB = new Checkbox("Do you want gym access?");
+    private final Checkbox autoExtensionCB = new Checkbox("Do you want auto extension of your subscription?");
+    private final TextField username = new TextField();
+    private final PasswordField password = new PasswordField();
+    private final PasswordField passwordCard = new PasswordField();
+    private final Label validationField = new Label("Please fill all fields to unlock button");
+    private final Button regButton = new Button("Register");
 
     private Boolean userTaken = true;
 
@@ -58,6 +55,7 @@ public class RegistrationView extends VerticalLayout {
     public RegistrationView(AccountClient accountClient, UserCardClient userCardClient,
                             CardClient cardClient) {
         setId("login-view");
+        H1 registrationHeading = new H1("Registration Form");
         add(registrationHeading);
 
         roleField.setItems(Role.USER, Role.ADMIN);
@@ -68,11 +66,7 @@ public class RegistrationView extends VerticalLayout {
         add(roleField);
         roleField.addValueChangeListener(event -> {
             checkButton();
-            if (Role.ADMIN.equals(roleField.getValue())) {
-                adminKey.setVisible(true);
-            } else {
-                adminKey.setVisible(false);
-            }
+            adminKey.setVisible(Role.ADMIN.equals(roleField.getValue()));
         });
 
         adminKey.setClearButtonVisible(true);
@@ -89,6 +83,7 @@ public class RegistrationView extends VerticalLayout {
         add(surname);
         surname.addValueChangeListener(event -> checkButton());
 
+        DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
         birthPicker.setDateFormat("yyyy-MM-dd");
         birth.setI18n(birthPicker);
         birth.setAllowedCharPattern("yyyy-MM-dd");
@@ -201,7 +196,6 @@ public class RegistrationView extends VerticalLayout {
                 user,
                 adminKey.getValue()
         );
-        String info = accountClient.createAccount(accountCreateDto);
-        return info;
+        return accountClient.createAccount(accountCreateDto);
     }
 }

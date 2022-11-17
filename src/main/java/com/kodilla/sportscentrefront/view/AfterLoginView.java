@@ -28,7 +28,7 @@ public class AfterLoginView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
-    private AuthService authService;
+    private final AuthService authService;
 
     public AfterLoginView(AuthService authService) {
         this.authService = authService;

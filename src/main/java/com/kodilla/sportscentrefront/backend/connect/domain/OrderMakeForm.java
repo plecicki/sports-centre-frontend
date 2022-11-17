@@ -7,29 +7,24 @@ import com.kodilla.sportscentrefront.view.admin.AdminOrderView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.server.VaadinSession;
-
-import javax.management.Notification;
 
 public class OrderMakeForm extends FormLayout {
 
-    private Checkbox bcaaCB = new Checkbox("BCAA:");
-    private Checkbox caffeineCB = new Checkbox("CAFFEINE:");
-    private Checkbox citrullineCB = new Checkbox("CITRULLINE:");
-    private Checkbox creatineCB = new Checkbox("CREATINE:");
-    private Checkbox proteinCB = new Checkbox("PROTEIN:");
+    private final Checkbox bcaaCB = new Checkbox("BCAA:");
+    private final Checkbox caffeineCB = new Checkbox("CAFFEINE:");
+    private final Checkbox citrullineCB = new Checkbox("CITRULLINE:");
+    private final Checkbox creatineCB = new Checkbox("CREATINE:");
+    private final Checkbox proteinCB = new Checkbox("PROTEIN:");
 
-    private Button makeOrder = new Button("Make order");
+    private final AdminOrderView adminOrderView;
 
-    private AdminOrderView adminOrderView;
-
-    private AdminOrderService adminOrderService;
+    private final AdminOrderService adminOrderService;
 
     public OrderMakeForm(AdminOrderView adminOrderView, OrderClient orderClient, SupplementsClient supplementsClient) {
         this.adminOrderService = AdminOrderService.getInstance(orderClient, supplementsClient);
 
+        Button makeOrder = new Button("Make order");
         add(bcaaCB, caffeineCB, citrullineCB, creatineCB, proteinCB, makeOrder);
         this.adminOrderView = adminOrderView;
 

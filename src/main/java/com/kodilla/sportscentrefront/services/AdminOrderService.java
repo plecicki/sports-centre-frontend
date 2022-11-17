@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class AdminOrderService {
 
-    private List<Order> orders;
+    private final List<Order> orders;
     private static AdminOrderService adminOrderService;
 
-    private OrderClient orderClient;
-    private SupplementsClient supplementsClient;
+    private final OrderClient orderClient;
+    private final SupplementsClient supplementsClient;
 
     @Autowired
     private AdminOrderService(OrderClient orderClient, SupplementsClient supplementsClient) {

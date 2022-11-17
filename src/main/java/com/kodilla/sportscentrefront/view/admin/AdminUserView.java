@@ -19,18 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Admin User")
 public class AdminUserView extends VerticalLayout {
 
-    private UserClient userClient;
-    private AdminUserService userService;
-    private Grid<User> grid = new Grid<>(User.class);
-    private TextField filter = new TextField();
-    private UserForm form;
-    private Button addNewUser = new Button("Add new user");
+    private final AdminUserService userService;
+    private final Grid<User> grid = new Grid<>(User.class);
+    private final TextField filter = new TextField();
+    private final UserForm form;
 
     @Autowired
     public AdminUserView(UserClient userClient, UserCardClient userCardClient, CardClient cardClient) {
         form = new UserForm(this, userClient, userCardClient, cardClient);
 
-        this.userClient = userClient;
         userService = AdminUserService.getInstance(userClient, userCardClient);
 
         filter.setPlaceholder("Filter by id...");
@@ -47,6 +44,7 @@ public class AdminUserView extends VerticalLayout {
             }
         }).setHeader("Card Id");
 
+        Button addNewUser = new Button("Add new user");
         addNewUser.addClickListener(event -> {
             grid.asSingleSelect().clear();
             form.setUser(new User(), true, userClient, cardClient);

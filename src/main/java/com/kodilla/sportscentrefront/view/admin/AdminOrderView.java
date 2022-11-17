@@ -15,26 +15,21 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 
 @PageTitle("Admin Order")
 public class AdminOrderView extends VerticalLayout {
 
-    private OrderClient orderClient;
-    private AdminOrderService orderService;
-    private Grid<Order> grid = new Grid<>(Order.class);
-    private TextField filter = new TextField();
+    private final AdminOrderService orderService;
+    private final Grid<Order> grid = new Grid<>(Order.class);
+    private final TextField filter = new TextField();
 
-    private OrderMakeForm orderMakeForm;
-    private OrderDeleteForm orderDeleteForm;
-
-    private Button createOrder = new Button("Create order");
+    private final OrderMakeForm orderMakeForm;
+    private final OrderDeleteForm orderDeleteForm;
 
     public AdminOrderView(OrderClient orderClient, SupplementsClient supplementsClient) {
         orderMakeForm = new OrderMakeForm(this, orderClient, supplementsClient);
         orderDeleteForm = new OrderDeleteForm(this, orderClient, supplementsClient);
 
-        this.orderClient = orderClient;
         orderService = AdminOrderService.getInstance(orderClient, supplementsClient);
 
         filter.setPlaceholder("Filter orders by user id...");
@@ -50,6 +45,7 @@ public class AdminOrderView extends VerticalLayout {
             }
         }).setHeader("User Id");
 
+        Button createOrder = new Button("Create order");
         createOrder.addClickListener(event -> {
             grid.asSingleSelect().clear();
             orderMakeForm.setOrder(new OrderDecInDto());

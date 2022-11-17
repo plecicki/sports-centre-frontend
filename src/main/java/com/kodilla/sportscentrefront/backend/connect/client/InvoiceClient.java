@@ -18,10 +18,9 @@ public class InvoiceClient {
 
     public Invoice[] getInvoices() {
         URI uri = getURIAddress();
-        Invoice[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Invoice[].class
         );
-        return response;
     }
 
     public Invoice getInvoice(Long invoiceId) {
@@ -29,19 +28,17 @@ public class InvoiceClient {
                 .build()
                 .encode()
                 .toUri();
-        Invoice response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Invoice.class
         );
-        return response;
     }
 
     public Invoice createInvoice(InvoiceCreateDto invoiceCreateDto) {
         URI uri = getURIAddress();
-        Invoice response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 uri, invoiceCreateDto, Invoice.class
         );
-
-        return response;
     }
 
     public Invoice editInvoice(InvoiceEditDto invoiceEditDto) {
@@ -50,14 +47,13 @@ public class InvoiceClient {
                 uri, invoiceEditDto
         );
 
-        Invoice response = new Invoice(
+        return new Invoice(
                 invoiceEditDto.getInvoiceId(),
                 invoiceEditDto.getPaymentStatus(),
                 invoiceEditDto.getPaymentDeadline(),
                 invoiceEditDto.getSum(),
                 invoiceEditDto.getUser()
         );
-        return response;
     }
 
     public void deleteInvoice(Long invoiceId) {

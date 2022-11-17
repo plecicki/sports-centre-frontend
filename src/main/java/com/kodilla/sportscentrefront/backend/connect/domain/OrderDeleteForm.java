@@ -7,25 +7,23 @@ import com.kodilla.sportscentrefront.view.admin.AdminOrderView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.data.binder.Binder;
 
 public class OrderDeleteForm extends FormLayout {
 
-    private Label orderId = new Label();
-    private Label description = new Label();
-    private Label sum = new Label();
+    private final Label orderId = new Label();
+    private final Label description = new Label();
+    private final Label sum = new Label();
 
-    private Button delete = new Button("Delete order");
+    private final AdminOrderView adminOrderView;
 
-    private AdminOrderView adminOrderView;
-
-    private AdminOrderService adminOrderService;
+    private final AdminOrderService adminOrderService;
 
     private Order orderChosen = new Order();
 
     public OrderDeleteForm(AdminOrderView adminOrderView, OrderClient orderClient, SupplementsClient supplementsClient) {
         this.adminOrderService = AdminOrderService.getInstance(orderClient, supplementsClient);
 
+        Button delete = new Button("Delete order");
         add(orderId, description, sum, delete);
         this.adminOrderView = adminOrderView;
 

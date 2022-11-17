@@ -1,16 +1,16 @@
 package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
-import com.kodilla.sportscentrefront.backend.connect.domain.*;
+import com.kodilla.sportscentrefront.backend.connect.domain.AccountCreateDto;
+import com.kodilla.sportscentrefront.backend.connect.domain.AccountInDto;
+import com.kodilla.sportscentrefront.backend.connect.domain.AccountOutDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
@@ -46,7 +46,7 @@ public class AccountClient {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getEndpoint() + backEndConfig.getAccount() + "/login")
                 .build()
                 .encode()
-                .toUri();;
+                .toUri();
         Object response;
         try {
             response = restTemplate.postForObject(

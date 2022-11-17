@@ -18,10 +18,9 @@ public class OrderClient {
 
     public Order[] getOrders() {
         URI uri = getURIAddress();
-        Order[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Order[].class
         );
-        return response;
     }
 
     public Order getOrder(Long orderId) {
@@ -29,19 +28,17 @@ public class OrderClient {
                 .build()
                 .encode()
                 .toUri();
-        Order response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Order.class
         );
-        return response;
     }
 
     public Order createOrder(OrderCreateDto orderCreateDto) {
         URI uri = getURIAddress();
-        Order response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 uri, orderCreateDto, Order.class
         );
-
-        return response;
     }
 
     public Order editOrder(OrderEditDto orderEditDto) {
@@ -50,13 +47,12 @@ public class OrderClient {
                 uri, orderEditDto
         );
 
-        Order response = new Order(
+        return new Order(
                 orderEditDto.getOrderId(),
                 orderEditDto.getDescription(),
                 orderEditDto.getSum(),
                 orderEditDto.getUser()
         );
-        return response;
     }
 
     public void deleteOrder(Long orderId) {

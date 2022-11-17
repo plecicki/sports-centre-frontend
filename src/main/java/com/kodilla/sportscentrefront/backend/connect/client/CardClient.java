@@ -20,10 +20,9 @@ public class CardClient {
 
     public Card[] getCards() {
         URI uri = getURIAddress();
-        Card[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Card[].class
         );
-        return response;
     }
 
     public Card getCard(Long cardId) {
@@ -31,19 +30,17 @@ public class CardClient {
                 .build()
                 .encode()
                 .toUri();
-        Card response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Card.class
         );
-        return response;
     }
 
     public Card createCard(CardCreateDto cardCreateDto) {
         URI uri = getURIAddress();
-        Card response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 uri, cardCreateDto, Card.class
         );
-
-        return response;
     }
 
     public Card editCard(CardEditDto cardEditDto) {
@@ -52,13 +49,12 @@ public class CardClient {
                 uri, cardEditDto
         );
 
-        Card response = new Card(
+        return new Card(
                 cardEditDto.getCardId(),
                 cardEditDto.getUser(),
                 cardEditDto.getAccessPass(),
                 cardEditDto.getCardStatus()
         );
-        return response;
     }
 
     public void deleteCard(Long cardId) {

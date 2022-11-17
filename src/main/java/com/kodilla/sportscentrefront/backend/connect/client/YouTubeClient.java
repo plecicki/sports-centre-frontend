@@ -2,14 +2,12 @@ package com.kodilla.sportscentrefront.backend.connect.client;
 
 import com.kodilla.sportscentrefront.backend.connect.config.BackEndConfig;
 import com.kodilla.sportscentrefront.backend.connect.domain.MyYouTubeDto;
-import com.kodilla.sportscentrefront.backend.connect.domain.TomWeatherDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,9 +21,8 @@ public class YouTubeClient {
                 .build()
                 .encode()
                 .toUri();
-        MyYouTubeDto[] response = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, MyYouTubeDto[].class
         );
-        return response;
     }
 }

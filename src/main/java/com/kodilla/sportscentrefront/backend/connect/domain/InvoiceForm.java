@@ -20,23 +20,19 @@ import java.util.List;
 
 public class InvoiceForm extends FormLayout {
 
-    private Select<PaymentStatus> paymentStatusSelect = new Select<>();
-    private DatePicker.DatePickerI18n paymentDeadlinePicker = new DatePicker.DatePickerI18n();
-    private DatePicker paymentDeadline = new DatePicker("Payment deadline:");
-    private BigDecimalField sumField = new BigDecimalField("Sum of invoice");
-    private Select<Long> userIds = new Select<>();
+    private final Select<PaymentStatus> paymentStatusSelect = new Select<>();
+    private final DatePicker paymentDeadline = new DatePicker("Payment deadline:");
+    private final BigDecimalField sumField = new BigDecimalField("Sum of invoice");
+    private final Select<Long> userIds = new Select<>();
 
-    private Button save = new Button("Save");
-    private Button delete = new Button("Delete");
+    private final Button paid = new Button("Set PAID");
+    private final Button notPaid = new Button("Set NOT PAID");
 
-    private Button paid = new Button("Set PAID");
-    private Button notPaid = new Button("Set NOT PAID");
+    private final Binder<Invoice> binder = new Binder<>(Invoice.class);
 
-    private Binder<Invoice> binder = new Binder<Invoice>(Invoice.class);
+    private final AdminInvoiceView adminInvoiceView;
 
-    private AdminInvoiceView adminInvoiceView;
-
-    private AdminInvoiceService adminInvoiceService;
+    private final AdminInvoiceService adminInvoiceService;
 
     public InvoiceForm(AdminInvoiceView adminInvoiceView, InvoiceClient invoiceClient, UserClient userClient,
                        InvoiceFrontClient invoiceFrontClient) {
@@ -46,6 +42,7 @@ public class InvoiceForm extends FormLayout {
         paymentStatusSelect.setItems(PaymentStatus.values());
         paymentStatusSelect.setEmptySelectionAllowed(true);
 
+        DatePicker.DatePickerI18n paymentDeadlinePicker = new DatePicker.DatePickerI18n();
         paymentDeadlinePicker.setDateFormat("yyyy-MM-dd");
         paymentDeadline.setI18n(paymentDeadlinePicker);
         paymentDeadline.setAllowedCharPattern("yyyy-MM-dd");
@@ -55,10 +52,12 @@ public class InvoiceForm extends FormLayout {
         userIds.setLabel("User Id:");
         userIds.setEmptySelectionAllowed(true);
         List<Long> usersIds = Arrays.stream(userClient.getUsers())
-                .map(user -> user.getUserId())
+                .map(User::getUserId)
                 .toList();
         userIds.setItems(usersIds);
 
+        Button save = new Button("Save");
+        Button delete = new Button("Delete");
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 

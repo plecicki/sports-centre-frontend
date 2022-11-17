@@ -17,19 +17,17 @@ import java.util.stream.Collectors;
 @Service
 public class AdminInvoiceService {
 
-    private List<Invoice> invoices;
+    private final List<Invoice> invoices;
     private static AdminInvoiceService adminInvoiceService;
 
-    private InvoiceClient invoiceClient;
-    private InvoiceFrontClient invoiceFrontClient;
-    private UserClient userClient;
+    private final InvoiceClient invoiceClient;
+    private final InvoiceFrontClient invoiceFrontClient;
 
     @Autowired
     private AdminInvoiceService(InvoiceClient invoiceClient, InvoiceFrontClient invoiceFrontClient, UserClient userClient) {
         this.invoices = Arrays.asList(invoiceClient.getInvoices());
         this.invoiceClient = invoiceClient;
         this.invoiceFrontClient = invoiceFrontClient;
-        this.userClient = userClient;
     }
 
     public static AdminInvoiceService getInstance(InvoiceClient invoiceClient, InvoiceFrontClient invoiceFrontClient,

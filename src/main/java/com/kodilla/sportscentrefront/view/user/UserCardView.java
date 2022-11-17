@@ -20,18 +20,18 @@ import com.vaadin.flow.server.VaadinSession;
 @CssImport("./styles/views/login/login-view.css")
 public class UserCardView extends VerticalLayout {
 
-    private H1 cardEditHeading = new H1("Edit password to card");
+    private final PasswordField oldPass = new PasswordField("Old Password");
+    private final PasswordField newPass1 = new PasswordField("New Password");
+    private final PasswordField newPass2 = new PasswordField("Repeat New Password");
 
-    private PasswordField oldPass = new PasswordField("Old Password");
-    private PasswordField newPass1 = new PasswordField("New Password");
-    private PasswordField newPass2 = new PasswordField("Repeat New Password");
-
-    private Button changeButton = new Button("Change Password");
+    private final Button changeButton = new Button("Change Password");
 
     private Card card;
 
     public  UserCardView(UserCardClient userCardClient, CardClient cardClient, UserClient userClient) {
         setId("login-view");
+
+        H1 cardEditHeading = new H1("Edit password to card");
 
         oldPass.addValueChangeListener(event -> checkButton());
         newPass1.addValueChangeListener(event -> checkButton());
@@ -43,7 +43,6 @@ public class UserCardView extends VerticalLayout {
         User user = VaadinSession.getCurrent().getAttribute(AccountOutDto.class).getUser();
         card = userCardClient.getCardByUserId(user.getUserId());
         card.setUser(userClient.getUser(user.getUserId()));
-        System.out.println(card.getAccessPass());
 
 
         changeButton.addClickListener(event -> {
@@ -76,12 +75,8 @@ public class UserCardView extends VerticalLayout {
     }
 
     private void checkButton() {
-        if (!oldPass.getValue().isEmpty() &&
+        changeButton.setEnabled(!oldPass.getValue().isEmpty() &&
                 !newPass1.getValue().isEmpty() &&
-                !newPass2.getValue().isEmpty()) {
-            changeButton.setEnabled(true);
-        } else {
-            changeButton.setEnabled(false);
-        }
+                !newPass2.getValue().isEmpty());
     }
 }

@@ -23,30 +23,26 @@ import java.util.List;
 
 public class UserForm extends FormLayout {
 
-    private TextField name = new TextField("Name:");
-    private TextField surname = new TextField("Surname:");
-    private DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
-    private DatePicker birth = new DatePicker("Date of birth:");
-    private TextField email = new TextField("Email:");
-    private TextField phone = new TextField("Phone:");
-    private Select<Goals> goalField = new Select<>();
-    private Checkbox studentCB = new Checkbox("Student?");
-    private Checkbox swimmingPoolCB = new Checkbox("Swimming pool access?");
-    private Checkbox gymCB = new Checkbox("Gym access?");
-    private Select<Long> cardIds = new Select<>();
-    private Checkbox autoExtensionCB = new Checkbox("Auto extension?");
-    private DatePicker validation = new DatePicker("Date validate:");
+    private final TextField name = new TextField("Name:");
+    private final TextField surname = new TextField("Surname:");
+    private final DatePicker birth = new DatePicker("Date of birth:");
+    private final TextField email = new TextField("Email:");
+    private final TextField phone = new TextField("Phone:");
+    private final Select<Goals> goalField = new Select<>();
+    private final Checkbox studentCB = new Checkbox("Student?");
+    private final Checkbox swimmingPoolCB = new Checkbox("Swimming pool access?");
+    private final Checkbox gymCB = new Checkbox("Gym access?");
+    private final Select<Long> cardIds = new Select<>();
+    private final Checkbox autoExtensionCB = new Checkbox("Auto extension?");
+    private final DatePicker validation = new DatePicker("Date validate:");
 
-    private List<Long> nonUsedCards = new ArrayList<>();
+    private final Button save = new Button("Save");
 
-    private Button save = new Button("Save");
-    private Button delete = new Button("Delete");
+    private final Binder<User> binder = new BeanValidationBinder<>(User.class);
 
-    private Binder<User> binder = new BeanValidationBinder<User>(User.class);
+    private final AdminUserView adminUserView;
 
-    private AdminUserView adminUserView;
-
-    private AdminUserService adminUserService;
+    private final AdminUserService adminUserService;
 
     public UserForm(AdminUserView adminUserView, UserClient userClient, UserCardClient userCardClient, CardClient cardClient) {
         this.adminUserService = AdminUserService.getInstance(userClient, userCardClient);
@@ -60,6 +56,7 @@ public class UserForm extends FormLayout {
         cardIds.setRequiredIndicatorVisible(true);
         validation.setRequired(true);
 
+        DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
         birthPicker.setDateFormat("yyyy-MM-dd");
         birth.setI18n(birthPicker);
         birth.setAllowedCharPattern("yyyy-MM-dd");
@@ -71,12 +68,13 @@ public class UserForm extends FormLayout {
         cardIds.setLabel("Card:");
         cardIds.setEmptySelectionAllowed(true);
 
-        nonUsedCards = setSelectWithEmptyCardIds(cardClient, userClient);
+        List<Long> nonUsedCards = setSelectWithEmptyCardIds(cardClient, userClient);
         cardIds.setItems(nonUsedCards);
 
         validation.setI18n(birthPicker);
         validation.setAllowedCharPattern("yyyy-MM-dd");
 
+        Button delete = new Button("Delete");
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(name, surname, birth, email, phone, goalField, studentCB,
@@ -158,17 +156,13 @@ public class UserForm extends FormLayout {
                 studentCB.setValue(user.getStudent());
                 swimmingPoolCB.setValue(user.getSwimmingPool());
                 gymCB.setValue(user.getGym());
+                List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
                 if (user.getCard() != null) {
-                    List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
-                    List<Long> nonUsedPlusActual = new ArrayList<>();
-                    for (Long nonUsed: nonUsedCardsIds) {
-                        nonUsedPlusActual.add(nonUsed);
-                    }
+                    List<Long> nonUsedPlusActual = new ArrayList<>(nonUsedCardsIds);
                     nonUsedPlusActual.add(user.getCard().getCardId());
                     cardIds.setItems(nonUsedPlusActual);
                     cardIds.setValue(user.getCard().getCardId());
                 } else {
-                    List<Long> nonUsedCardsIds = setSelectWithEmptyCardIds(cardClient, userClient);
                     cardIds.setItems(nonUsedCardsIds);
                     cardIds.setValue(null);
                 }
@@ -192,10 +186,10 @@ public class UserForm extends FormLayout {
     }
 
     private List<Long> setSelectWithEmptyCardIds(CardClient cardClient, UserClient userClient) {
-        List<Long> allCardsIds = Arrays.asList(cardClient.getCards()).stream()
-                .map(card -> card.getCardId())
+        List<Long> allCardsIds = Arrays.stream(cardClient.getCards())
+                .map(Card::getCardId)
                 .toList();
-        List<Long> usedCards = Arrays.asList(userClient.getUsers()).stream()
+        List<Long> usedCards = Arrays.stream(userClient.getUsers())
                 .map(user -> {
                     if (user.getCard() != null) {
                         return user.getCard().getCardId();

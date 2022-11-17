@@ -18,18 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Admin Invoice")
 public class AdminInvoiceView extends VerticalLayout {
 
-    private InvoiceClient invoiceClient;
-    private AdminInvoiceService invoiceService;
-    private Grid<Invoice> grid = new Grid<>(Invoice.class);
-    private TextField filter = new TextField();
-    private InvoiceForm form;
-    private Button addNewInvoice = new Button("Add new invoice");
+    private final AdminInvoiceService invoiceService;
+    private final Grid<Invoice> grid = new Grid<>(Invoice.class);
+    private final TextField filter = new TextField();
+    private final InvoiceForm form;
 
     @Autowired
     public AdminInvoiceView(InvoiceClient invoiceClient, UserClient userClient, InvoiceFrontClient invoiceFrontClient) {
         form = new InvoiceForm(this, invoiceClient, userClient, invoiceFrontClient);
 
-        this.invoiceClient = invoiceClient;
         invoiceService = AdminInvoiceService.getInstance(invoiceClient, invoiceFrontClient, userClient);
 
         filter.setPlaceholder("Filter invoices by user id...");
@@ -45,6 +42,7 @@ public class AdminInvoiceView extends VerticalLayout {
             }
         }).setHeader("User Id");
 
+        Button addNewInvoice = new Button("Add new invoice");
         addNewInvoice.addClickListener(event -> {
             grid.asSingleSelect().clear();
             form.setInvoice(new Invoice(), true);

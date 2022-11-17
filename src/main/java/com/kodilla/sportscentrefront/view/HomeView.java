@@ -7,22 +7,18 @@ import com.kodilla.sportscentrefront.backend.connect.domain.TableYouTubeDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.TomWeatherDto;
 import com.vaadin.flow.component.HasText;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,9 +43,7 @@ public class HomeView extends VerticalLayout {
 
         //------------------------------------------------------
 
-        Button loginButton = new Button("Click to Log In or Register", event -> {
-            UI.getCurrent().navigate("/sport/login");
-        });
+        Button loginButton = new Button("Click to Log In or Register", event -> UI.getCurrent().navigate("/sport/login"));
         loginButton.setWidthFull();
         loginButton.setHeight("100px");
         loginButton.getStyle().set("background-color", "#0066ff");
@@ -182,14 +176,14 @@ public class HomeView extends VerticalLayout {
                 })
                 .setHeader("Like Count");
 
-        gridYT.addComponentColumn(e -> e.getImage()).setHeader("Image");
+        gridYT.addComponentColumn(TableYouTubeDto::getImage).setHeader("Image");
 
         gridYT.addItemClickListener(e -> {
             Runtime rt = Runtime.getRuntime();
             String url = e.getItem().getVideoUrl();
             try {
                 rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
-            } catch (IOException exception) {
+            } catch (IOException ignored) {
 
             }
         });
@@ -198,7 +192,7 @@ public class HomeView extends VerticalLayout {
         return gridYT;
     }
 
-    public static FormLayout getFormLayout(WeatherClient weatherClient) throws Exception {
+    public static FormLayout getFormLayout(WeatherClient weatherClient) {
         TomWeatherDto weather = weatherClient.getWeather();
         Label headingWeather = new Label("TOMORROW WEATHER");
         headingWeather.getStyle().set("text-align", "center");
@@ -240,14 +234,11 @@ public class HomeView extends VerticalLayout {
     public static List<TableYouTubeDto> getTableYouTube(MyYouTubeDto[] myYouTubeDto) {
 
         List<String> stringImageUrl = Arrays.stream(myYouTubeDto)
-                .map(obj -> obj.getImageUrl().toString())
-                .collect(Collectors.toList());
+                .map(obj -> obj.getImageUrl().toString()).toList();
         List<String> stringVideoUrl = Arrays.stream(myYouTubeDto)
-                .map(obj -> obj.getVideoUrl().toString())
-                .collect(Collectors.toList());
+                .map(obj -> obj.getVideoUrl().toString()).toList();
         List<LocalDate> stringDate = Arrays.stream(myYouTubeDto)
-                .map(obj -> obj.getPublishedAt().toLocalDate())
-                .collect(Collectors.toList());
+                .map(obj -> obj.getPublishedAt().toLocalDate()).toList();
 
         List<TableYouTubeDto> tableYouTubeDtos = new ArrayList<>();
         int i = 0;

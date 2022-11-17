@@ -1,14 +1,11 @@
 package com.kodilla.sportscentrefront.view.user;
 
 import com.kodilla.sportscentrefront.backend.connect.client.UserCardClient;
-import com.kodilla.sportscentrefront.backend.connect.client.UserClient;
 import com.kodilla.sportscentrefront.backend.connect.domain.AccountOutDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.User;
 import com.kodilla.sportscentrefront.backend.connect.domain.UserEditDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.UserOldNewDto;
 import com.kodilla.sportscentrefront.backend.connect.domain.enums.Goals;
-import com.kodilla.sportscentrefront.backend.connect.domain.enums.Role;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -16,13 +13,10 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,44 +26,39 @@ public class UserUserView extends VerticalLayout {
 
     private User user;
 
-    private H1 userDataHeading = new H1("Your Data");
+    private final H1 userDataHeading = new H1("Your Data");
 
-    private Label nameLabel = new Label();
-    private Label surnameLabel = new Label();
-    private Label birthLabel = new Label();
-    private Label emailLabel = new Label();
-    private Label phoneLabel = new Label();
-    private Label goalLabel = new Label();
-    private Label studentLabel = new Label();
-    private Label swimmingPoolLabel = new Label();
-    private Label gymLabel = new Label();
-    private Label autoExtensionLabel = new Label();
+    private final Label nameLabel = new Label();
+    private final Label surnameLabel = new Label();
+    private final Label birthLabel = new Label();
+    private final Label emailLabel = new Label();
+    private final Label phoneLabel = new Label();
+    private final Label goalLabel = new Label();
+    private final Label studentLabel = new Label();
+    private final Label swimmingPoolLabel = new Label();
+    private final Label gymLabel = new Label();
+    private final Label autoExtensionLabel = new Label();
 
-    private Button editUserButton = new Button("Edit Data");
+    private final TextField name = new TextField();
+    private final TextField surname = new TextField();
+    private final DatePicker birth = new DatePicker("Select date of birth:");
+    private final TextField email = new TextField();
+    private final TextField phone = new TextField();
+    private final Select<Goals> goalField = new Select<>();
+    private final Checkbox studentCB = new Checkbox("Student?");
+    private final Checkbox swimmingPoolCB = new Checkbox("Swimming pool access?");
+    private final Checkbox gymCB = new Checkbox("Gym access?");
+    private final Checkbox autoExtensionCB = new Checkbox("Auto extension?");
 
-    private H1 editingHeading = new H1("Editing user form");
-
-    private TextField name = new TextField();
-    private TextField surname = new TextField();
-    private DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
-    private DatePicker birth = new DatePicker("Select date of birth:");
-    private TextField email = new TextField();
-    private TextField phone = new TextField();
-    private Select<Goals> goalField = new Select<>();
-    private Checkbox studentCB = new Checkbox("Student?");
-    private Checkbox swimmingPoolCB = new Checkbox("Swimming pool access?");
-    private Checkbox gymCB = new Checkbox("Gym access?");
-    private Checkbox autoExtensionCB = new Checkbox("Auto extension?");
-
-    private Label validationField = new Label("Please fill all fields to unlock button");
-    private Button regButton = new Button("Edit");
+    private final Label validationField = new Label("Please fill all fields to unlock button");
+    private final Button regButton = new Button("Edit");
 
     private UserOldNewDto userOldNewDto;
 
-    private Button acceptButton = new Button("OK");
+    private final Button acceptButton = new Button("OK");
 
-    private H1 h1OldData = new H1("Old Data");
-    private H1 h1NewData = new H1("New Data");
+    private final H1 h1OldData = new H1("Old Data");
+    private final H1 h1NewData = new H1("New Data");
 
     private FormLayout dataForm;
     private FormLayout editingForm;
@@ -83,6 +72,7 @@ public class UserUserView extends VerticalLayout {
 
         setLabelsAtFirsCard();
 
+        Button editUserButton = new Button("Edit Data");
         editUserButton.addClickListener(event -> {
             dataForm.setVisible(false);
             editingForm.setVisible(true);
@@ -111,6 +101,7 @@ public class UserUserView extends VerticalLayout {
 
         //----------------------------------------------------------------------
 
+        H1 editingHeading = new H1("Editing user form");
         editingHeading.getStyle().set("text-align", "center");
 
         name.setLabel("Name:");
@@ -119,6 +110,7 @@ public class UserUserView extends VerticalLayout {
         surname.setLabel("Surname:");
         surname.addValueChangeListener(event -> checkButton());
 
+        DatePicker.DatePickerI18n birthPicker = new DatePicker.DatePickerI18n();
         birthPicker.setDateFormat("yyyy-MM-dd");
         birth.setI18n(birthPicker);
         birth.setAllowedCharPattern("yyyy-MM-dd");

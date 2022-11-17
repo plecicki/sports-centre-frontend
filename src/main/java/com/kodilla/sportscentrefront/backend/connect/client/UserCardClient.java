@@ -22,11 +22,10 @@ public class UserCardClient {
                 .build()
                 .encode()
                 .toUri();
-        User response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
                 uri, userCreateDto, User.class
         );
-
-        return response;
     }
 
     public User editUser(UserEditDto userEditDto) {
@@ -39,7 +38,7 @@ public class UserCardClient {
                 uri, userEditDto
         );
 
-        User response = new User(
+        return new User(
                 userEditDto.getUserId(),
                 userEditDto.getName(),
                 userEditDto.getSurname(),
@@ -55,7 +54,6 @@ public class UserCardClient {
                 new ArrayList<>(),
                 userEditDto.getSubValidity()
         );
-        return response;
     }
 
     public UserOldNewDto editUserWithClone(UserEditDto userEditDto) {
@@ -64,11 +62,9 @@ public class UserCardClient {
                 .encode()
                 .toUri();
 
-        UserOldNewDto response = restTemplate.postForObject(
+        return restTemplate.postForObject(
                 uri, userEditDto, UserOldNewDto.class
         );
-
-        return response;
     }
 
     public void deleteUser(Long userId) {
@@ -84,10 +80,9 @@ public class UserCardClient {
                 .build()
                 .encode()
                 .toUri();
-        Card card = restTemplate.getForObject(
+        return restTemplate.getForObject(
                 uri, Card.class
         );
-        return card;
     }
 
     public void deleteCard(Long cardId) {

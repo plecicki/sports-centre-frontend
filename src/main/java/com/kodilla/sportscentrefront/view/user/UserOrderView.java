@@ -19,26 +19,24 @@ import com.vaadin.flow.server.VaadinSession;
 @CssImport("./styles/views/login/login-view.css")
 public class UserOrderView extends VerticalLayout {
 
-    private User user;
+    private final H1 orderMakeHeading = new H1("Make an order:");
 
-    private H1 orderMakeHeading = new H1("Make an order:");
+    private final Checkbox bcaaCB = new Checkbox("BCAA");
+    private final Checkbox caffeineCB = new Checkbox("Caffeine");
+    private final Checkbox citrullineCB = new Checkbox("Citrulline");
+    private final Checkbox creatineCB = new Checkbox("Creatine");
+    private final Checkbox proteinCB = new Checkbox("Protein");
 
-    private Checkbox bcaaCB = new Checkbox("BCAA");
-    private Checkbox caffeineCB = new Checkbox("Caffeine");
-    private Checkbox citrullineCB = new Checkbox("Citrulline");
-    private Checkbox creatineCB = new Checkbox("Creatine");
-    private Checkbox proteinCB = new Checkbox("Protein");
+    private final Button orderButton = new Button("Order");
 
-    private Button orderButton = new Button("Order");
+    private final H1 orderCreatedHeading = new H1("Order created");
 
-    private H1 orderCreatedHeading = new H1("Order created");
+    private final FormLayout formLabels = new FormLayout();
 
-    private FormLayout formLabels = new FormLayout();
+    private final Label descriptionLabel = new Label();
+    private final Label sumLabel = new Label();
 
-    private Label descriptionLabel = new Label();
-    private Label sumLabel = new Label();
-
-    private Button okButton = new Button("OK");
+    private final Button okButton = new Button("OK");
 
     public UserOrderView(SupplementsClient supplementsClient) {
         setId("login-view");
@@ -118,14 +116,10 @@ public class UserOrderView extends VerticalLayout {
     }
 
     private void checkOrderButton() {
-        if (bcaaCB.getValue() ||
-        caffeineCB.getValue() ||
-        citrullineCB.getValue() ||
-        creatineCB.getValue() ||
-        proteinCB.getValue()) {
-            orderButton.setEnabled(true);
-        } else {
-            orderButton.setEnabled(false);
-        }
+        orderButton.setEnabled(bcaaCB.getValue() ||
+                caffeineCB.getValue() ||
+                citrullineCB.getValue() ||
+                creatineCB.getValue() ||
+                proteinCB.getValue());
     }
 }
